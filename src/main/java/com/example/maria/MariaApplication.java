@@ -9,5 +9,5 @@ public class MariaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MariaApplication.class, args);
 	}
-
+	
 }
