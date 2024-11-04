@@ -1,0 +1,23 @@
+<!-- loan.html -->
+<div id="loan" class="form-content">
+    <h2>Loan Application</h2>
+    <form>
+        <div class="form-group">
+            <label for="applicant-name">Applicant Name</label>
+            <input type="text" id="applicant-name" name="applicant-name" required>
+        </div>
+        <div class="form-group">
+            <label for="loan-amount">Loan Amount</label>
+            <input type="number" id="loan-amount" name="loan-amount" required>
+        </div>
+        <div class="form-group">
+            <label for="term">Loan Term (months)</label>
+            <input type="number" id="term" name="term" required>
+        </div>
+        <div class="form-group">
+            <label for="interest-rate">Interest Rate (%)</label>
+            <input type="number" step="0.01" id="interest-rate" name="interest-rate" required>
+        </div>
+        <button type="submit" class="btn-primary">Apply for Loan</button>
+    </form>
+</div>
