@@ -30,6 +30,6 @@ public class RegistrationController {
     
     @GetMapping("/login")
     public String showLoginForm() {
-        return "Login"; // Make sure this matches your HTML template filename without the .html suffix
+        return "Login"; 
     }
 }

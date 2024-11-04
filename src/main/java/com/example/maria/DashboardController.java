@@ -11,7 +11,7 @@ public class DashboardController {
     
     @GetMapping("/dashboard")
     public ModelAndView showDashboardPage() {
-        ModelAndView modelAndView = new ModelAndView("Dashboard");
+        ModelAndView modelAndView = new ModelAndView("dashboard");
         return modelAndView;
     }
 
