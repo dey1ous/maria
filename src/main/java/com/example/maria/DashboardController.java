@@ -2,6 +2,7 @@ package com.example.maria;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 
 
@@ -9,8 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DashboardController {
     
     @GetMapping("/dashboard")
-    public String showDashboardPage() {
-        return "dashboard";
+    public ModelAndView showDashboardPage() {
+        ModelAndView modelAndView = new ModelAndView("Dashboard");
+        return modelAndView;
     }
-    
+
 }
