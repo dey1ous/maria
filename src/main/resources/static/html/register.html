@@ -1,23 +1,138 @@
-<!-- Account Registration-->
-<div id="register" class="form-content">
-    <h2>Account Registration</h2>
-    <form>
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Information</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <style>
+        /* Basic styling for form container */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #084270;
+            overflow: hidden; /* To avoid extra scrollbar on the page */
+        }
+
+        .form-container {
+            width: 400px;
+            max-height: 75vh; 
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; 
+        }
+
+        h2 {
+            text-align: center;
+            color: #003366;
+        }
+
+        
+        .form-container label {
+            font-weight: bold;
+            color: #003366;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="date"],
+        .form-container input[type="email"],
+        .form-container input[type="tel"],
+        .form-container textarea,
+        .form-container select {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Styling for submit button */
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #003366;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #002244;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Personal Information</h2>
+        <form action="/submit_personal_info" method="post">
+            
+            <!-- Basic Details -->
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="full_name" required>
+
+            <label for="date-of-birth">Date of Birth</label>
+            <input type="date" id="date-of-birth" name="date_of_birth" required>
+
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="civil-status">Civil Status</label>
+            <select id="civil-status" name="civil_status">
+                <option value="single">Single</option>
+                <option value="married">Married</option>
+                <option value="widowed">Widowed</option>
+            </select>
+
+            <!-- Contact Information -->
+            <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="contact">Contact Number</label>
-            <input type="text" id="contact" name="contact" required>
-        </div>
-        <div class="form-group">
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="e.g., +1234567890">
+
             <label for="address">Address</label>
-            <input type="text" id="address" name="address" required>
-        </div>
-        <button type="submit" class="btn-primary">Submit</button>
-    </form>
-</div>
+            <textarea id="address" name="address" rows="3" placeholder="Street, City, Region, ZIP code"></textarea>
+
+            <!-- Membership Information -->
+            <label for="membership-id">Membership ID</label>
+            <input type="text" id="membership-id" name="membership_id" readonly value="Generated Automatically">
+
+            <label for="membership-start">Membership Start Date</label>
+            <input type="date" id="membership-start" name="membership_start" required>
+
+            <label for="membership-status">Membership Status</label>
+            <select id="membership-status" name="membership_status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="suspended">Suspended</option>
+            </select>
+
+            <label for="membership-level">Membership Level</label>
+            <select id="membership-level" name="membership_level">
+                <option value="standard">Standard</option>
+                <option value="premium">Premium</option>
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit">Save Personal Information</button>
+        </form>
+    </div>
+</body>
+</html>
