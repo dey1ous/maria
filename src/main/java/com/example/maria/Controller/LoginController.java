@@ -1,4 +1,4 @@
-package com.example.maria;
+package com.example.maria.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
