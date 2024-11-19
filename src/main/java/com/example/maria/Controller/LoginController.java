@@ -17,7 +17,7 @@ public class LoginController {
 
       
         if ("id".equals(email) && "password".equals(password)) {
-            modelAndView.setViewName("redirect:/dashboard"); // Redirect to home page on successful login
+            modelAndView.setViewName("/html/home"); // Redirect to home page on successful login
         } else {
             modelAndView.setViewName("login"); // Redirect back to login page on failure
             modelAndView.addObject("error", "Invalid email or password.");
