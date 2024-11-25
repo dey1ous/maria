@@ -12,19 +12,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Loan_Application")
-public class Loan {
+@Table(name = "Account")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long loanId;
+    private Long accountId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    private BigDecimal loanAmount;
-    private String loanStatus;
-    private LocalDateTime applicationDate;
+    private BigDecimal accountBalance;
+    private String accountType;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     // Getters and Setters
