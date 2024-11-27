@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Information</title>
-    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="css/register.css">
     
 </head>
 <body>
     <div class="form-container">
         <h2>Personal Information</h2>
-        <form action="/submit_personal_info" method="post">
+        <form action="/submit_personal_info" method="post" enctype="multipart/form-data">
             
             <!-- Basic Details -->
             <label for="full-name">Full Name</label>
@@ -42,6 +42,9 @@
 
             <label for="address">Address</label>
             <textarea id="address" name="address" rows="3" placeholder="Street, City, Region, ZIP code"></textarea>
+            
+            <label for="valid-id">Upload Valid ID</label>
+            <input type="file" id="valid-id" name="valid_id" accept="image/*,application/pdf" required>
 
             <!-- Membership Information -->
             <label for="membership-id">Membership ID</label>

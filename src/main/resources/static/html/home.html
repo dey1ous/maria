@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Overview</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
         <div class="header">
@@ -14,10 +14,10 @@
             <div class="section">
                 <h2>User Profile</h2>
                 <div class="profile-info">
-                    <strong>Name:</strong> John Doe<br>
-                    <strong>Member ID:</strong> 123456<br>
-                    <strong>Email:</strong> johndoe@example.com<br>
-                    <strong>Joined:</strong> January 1, 2020
+                    <strong>Name:</strong> <span th:text="${user.fullName}">John Doe</span><br>
+                    <strong>Username:</strong> <span th:text="${user.username}">johndoe</span><br>
+                    <strong>Email:</strong> <span th:text="${user.email}">johndoe@example.com</span><br>
+                    <strong>Role:</strong> <span th:text="${user.role}">USER</span><br>
                 </div>
                 <a href="/logout" class="logout-button">Logout</a>
             </div>
@@ -37,5 +37,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>
