@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success/Error</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your updated CSS -->
+</head>
+<body>
+
+    <div id="overlay" class="modal">
+        <div class="modal-content">
+            <h2>Success/Error!</h2>
+            <p>${message}</p>
+            <button onclick="closeModalAndRedirect()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Display the modal when needed, for example:
+        document.body.classList.add('modal-open');
+    </script>
+
+</body>
+</html>

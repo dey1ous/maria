@@ -10,8 +10,9 @@
 <body>
     <div class="form-container">
         <h2>Personal Information</h2>
-        <form action="/submit_personal_info" method="post" enctype="multipart/form-data">
-            
+        <form action="/api/personal-info/submit" method="post" enctype="multipart/form-data">
+
+
             <!-- Basic Details -->
             <label for="full-name">Full Name</label>
             <input type="text" id="full-name" name="full_name" required>
@@ -38,7 +39,7 @@
             <input type="email" id="email" name="email" required>
 
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="e.g., +1234567890">
+            <input type="tel" id="phone" name="phone" placeholder="1234567891">
 
             <label for="address">Address</label>
             <textarea id="address" name="address" rows="3" placeholder="Street, City, Region, ZIP code"></textarea>
@@ -50,5 +51,6 @@
             <button type="submit">Save Personal Information</button>
         </form>
     </div>
+    
 </body>
 </html>
