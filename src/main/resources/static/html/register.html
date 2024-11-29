@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Information</title>
     <link rel="stylesheet" href="css/register.css">
-    
 </head>
 <body>
     <div class="form-container">
         <h2>Personal Information</h2>
-        <form action="/api/personal-information/review" method="post" enctype="multipart/form-data">
-
-
+        <form id="registerForm" action="/api/personal-information/review" method="post" enctype="multipart/form-data">
             <!-- Basic Details -->
             <label for="full-name">Full Name</label>
             <input type="text" id="full-name" name="full_name" required>
@@ -34,7 +31,6 @@
                 <option value="widowed">Widowed</option>
             </select>
 
-         
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required>
 
@@ -43,7 +39,7 @@
 
             <label for="address">Address</label>
             <textarea id="address" name="address" rows="3" placeholder="Street, City, Region, ZIP code"></textarea>
-            
+
             <label for="valid-id">Upload Valid ID</label>
             <input type="file" id="valid-id" name="valid_id" accept="image/*,application/pdf" required>
 
@@ -51,26 +47,30 @@
             <button type="submit">Save Personal Information</button>
         </form>
     </div>
+
     <script>
+        // Add event listener for form submission
         document.getElementById("registerForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-    
-            const formData = new FormData(this);
-            fetch("/register/save", {
+            event.preventDefault();  // Prevent the default form submission
+
+            const formData = new FormData(this);  // Collect form data
+
+            // Submit form data using Fetch API
+            fetch("/api/personal-information/review", {
                 method: "POST",
                 body: formData
             })
-                .then(response => response.json())
+                .then(response => response.json())  // Parse response as JSON
                 .then(data => {
                     if (data.success) {
                         alert("Data saved successfully!");
-                        window.location.href = "/dashboard#register"; // Redirect to the dashboard
+                        window.location.href = "/dashboard#register";  // Redirect after successful submission
                     } else {
                         alert("Error saving data. Please try again.");
                     }
                 })
                 .catch(error => {
-                    console.error("Error:", error);
+                    console.error("Error:", error);  // Log any errors
                     alert("Error saving data. Please try again.");
                 });
         });

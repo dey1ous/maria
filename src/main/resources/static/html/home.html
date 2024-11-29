@@ -10,15 +10,14 @@
         <div class="header">
             <h1>Account Overview</h1>
         </div>
-        <div class="content">
-            <div class="section">
-                <h2>User Profile</h2>
-                <div class="profile-info">
-                    <strong>Name:</strong> <span th:text="${user.fullName}">John Doe</span><br>
-                    <strong>Username:</strong> <span th:text="${user.username}">johndoe</span><br>
-                    <strong>Email:</strong> <span th:text="${user.email}">johndoe@example.com</span><br>
-                    <strong>Role:</strong> <span th:text="${user.role}">USER</span><br>
-                </div>
+        <div th:fragment="user-profile">
+            <h2>User Profile</h2>
+            <div class="profile-info">
+                <strong>Name:</strong> <span th:text="${user.fullName}">John Doe</span><br>
+                <strong>Username:</strong> <span th:text="${user.username}">johndoe</span><br>
+                <strong>Email:</strong> <span th:text="${user.email}">johndoe@example.com</span><br>
+                <strong>Role:</strong> <span th:text="${user.role}">USER</span><br>
+            </div>
                 <a href="/logout" class="logout-button">Logout</a>
             </div>
             <div class="section">

@@ -11,17 +11,26 @@
             <tr>
                 <th>ID</th>
                 <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Civil Status</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Actions</th> <!-- Column for actions -->
+                <th>Address</th>
+                <th>Actions</th> <!-- Column for actions like Delete -->
             </tr>
         </thead>
         <tbody>
+            <!-- Loop through personalInfoList -->
             <tr th:each="info : ${personalInfoList}">
                 <td th:text="${info.id}"></td>
                 <td th:text="${info.fullName}"></td>
+                <td th:text="${info.dateOfBirth}"></td>
+                <td th:text="${info.gender}"></td>
+                <td th:text="${info.civilStatus}"></td>
                 <td th:text="${info.email}"></td>
                 <td th:text="${info.phone}"></td>
+                <td th:text="${info.address}"></td>
                 <td>
                     <!-- Delete button: Sends a request to delete the user -->
                     <form th:action="@{/admin/delete-user/{id}(id=${info.id})}" method="post" style="display:inline;">

@@ -1,25 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-    <h1>Welcome to the Admin Dashboard</h1>
-    <p>Only users with the admin role can access this page.</p>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>johndoe@example.com</td>
-            <td>123-456-7890</td>
-        </tr>
-        <!-- Add more rows as needed -->
-    </table>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+    <button class="closebtn" onclick="closeNav()">Close</button>
+    <a href="#list" onclick="loadContent('/html/list.html')">List of User</a>
+    <a href="#Loans" onclick="loadContent('/html/about.html')">Loan</a>
+    <!-- Logout button in the sidebar -->
+    <a href="/logout">Logout</a>  <!-- This is where the user will be logged out -->
+</div>
+
+<!-- Main content area -->
+<div id="main">
+    <button class="openbtn" onclick="openNav()">&#9776;</button>
+</div>
+
+<!-- Container for tabs and content -->
+<div class="container">
+    <div class="tab">
+        <button onclick="loadContent('/html/list.html')">List of User</button>
+        <button onclick="loadContent('/html/loan.html')">Loaning System</button>
+    </div>
+
+    <!-- Content Area -->
+    <div id="content" class="form-content">
+        <!-- Content will be loaded here -->
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="/js/script.js"></script>
+<script>
+    // Function to load content dynamically
+    function loadContent(file) {
+            fetch(file)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("content").innerHTML = html;
+                })
+                .catch(error => console.error('Error loading content:', error));
+        }
+
+        // Check for the fragment in the URL when the page loads
+        window.onload = function() {
+            const fragment = window.location.hash;
+
+            if (fragment === "#list") {
+                loadContent('/html/list.html');  // Load the list content
+            }
+
+    // Function to open the sidebar
+    function openNav() {
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    // Function to close the sidebar
+    function closeNav() {
+        document.getElementById("sidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+
+    // Load the 'list.html' by default when the page loads
+    window.onload = () => loadContent('/html/list.html');
+}
+</script>
+
 </body>
 </html>

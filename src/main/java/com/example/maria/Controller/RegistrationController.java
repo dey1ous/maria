@@ -1,6 +1,5 @@
 package com.example.maria.Controller;
 
-import com.example.maria.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.example.maria.entity.User;
 import com.example.maria.repository.UserRepository;
 
 @Controller
@@ -29,11 +29,11 @@ public class RegistrationController {
             @RequestParam("password") String password) {
 
         User user = new User();
-        user.setEmail(name);
+        user.setFullName(name);
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);
-
+        user.setRole("user");        
         userRepository.save(user);
 
         System.out.println("User registered with Email: " + email + ", Name: " + name + ", Username: " + username);
