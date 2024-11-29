@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success</title>
     <link rel="stylesheet" href="/css/styles.css">
+    
 </head>
 <body>
-    <!-- Success Message -->
+   
     <div class="success-message">
         <h1>Success!</h1>
         <p>Your personal information has been saved successfully.</p>
-        <button onclick="goBack()">Go Back</button>
+        <button onclick="goToRegister()">Go Back</button>
     </div>
 
     <script>
-        function goBack() {
-            window.history.back(); // Navigates to the previous page
+        function goToRegister() {
+            window.location.href = "/dashboard#register"; // Replace with the correct path to your dashboard page
         }
     </script>
 </body>

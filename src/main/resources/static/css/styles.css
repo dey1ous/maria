@@ -37,7 +37,6 @@ body {
     z-index: 1001; /* Ensures modal content is above the overlay */
 }
 
-/* Button Styling */
 button {
     padding: 10px 20px;
     background-color: #f44336;
@@ -53,12 +52,18 @@ button:hover {
 
 /* Success Message Styling */
 .success-message {
+    background-color: #fff; /* White container */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 500px;
     text-align: center;
-    margin-top: 50px;
+
 }
 
 .success-message h1 {
-    color: green;
+    color: #0a4275;
 }
 
 .success-message p {
@@ -66,7 +71,7 @@ button:hover {
 }
 
 .success-message button {
-    background-color: #4CAF50; /* Green color for success */
+    background-color: #4CAF50; 
 }
 
 .success-message button:hover {

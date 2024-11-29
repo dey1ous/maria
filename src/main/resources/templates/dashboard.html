@@ -11,11 +11,11 @@
 
 <div id="sidebar" class="sidebar">
     <button class="closebtn" onclick="closeNav()">Close</button>
-    <a href="#" onclick="loadContent('/html/home.html')">Home</a>
-    <a href="#" onclick="loadContent('/html/about.html')">About</a>
-    <a href="#" onclick="loadContent('/html/notification.html')">Notifications</a>
-    <a href="#" onclick="loadContent('/html/loan.html')">Services</a>
-    <a href="#" onclick="loadContent('/html/register.html')">Profile</a>
+    <a href="#home" onclick="loadContent('/html/home.html')">Home</a>
+    <a href="#about" onclick="loadContent('/html/about.html')">About</a>
+    <a href="#notification" onclick="loadContent('/html/notification.html')">Notifications</a>
+    <a href="#loan" onclick="loadContent('/html/loan.html')">Services</a>
+    <a href="#register" onclick="loadContent('/html/register.html')">Profile</a>
 </div>
 
 <div id="main">
@@ -57,6 +57,7 @@
 
     // Load the registration tab by default on page load
     window.onload = () => loadContent('/html/home.html');
+    
 </script>
 
 </body>

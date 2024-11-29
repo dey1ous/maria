@@ -6,11 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+
 
 @Entity
-@Table(name = "personal_information")
 public class PersonalInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +26,13 @@ public class PersonalInformation {
     private String address;
 
     @Lob
-    private byte[] validId;
+    private byte[] validId;  // For storing the uploaded file
 
-    // Getters and setters
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;  // This links to the User entity
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -99,5 +103,13 @@ public class PersonalInformation {
 
     public void setValidId(byte[] validId) {
         this.validId = validId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

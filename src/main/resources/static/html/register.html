@@ -10,7 +10,7 @@
 <body>
     <div class="form-container">
         <h2>Personal Information</h2>
-        <form action="/api/personal-info/submit" method="post" enctype="multipart/form-data">
+        <form action="/api/personal-information/review" method="post" enctype="multipart/form-data">
 
 
             <!-- Basic Details -->
@@ -34,7 +34,7 @@
                 <option value="widowed">Widowed</option>
             </select>
 
-            <!-- Contact Information -->
+         
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required>
 
@@ -51,6 +51,29 @@
             <button type="submit">Save Personal Information</button>
         </form>
     </div>
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            event.preventDefault();
     
+            const formData = new FormData(this);
+            fetch("/register/save", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Data saved successfully!");
+                        window.location.href = "/dashboard#register"; // Redirect to the dashboard
+                    } else {
+                        alert("Error saving data. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Error saving data. Please try again.");
+                });
+        });
+    </script>
 </body>
 </html>

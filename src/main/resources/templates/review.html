@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Review Personal Information</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003b73; /* Blue background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Styles */
+        .container {
+            background-color: #fff; /* White container */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        /* Heading */
+        h1 {
+            color: #003b73;
+        }
+
+        /* Paragraph Text */
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        /* Form Button Styles */
+        button {
+            background-color: #003b73;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #084270; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Review Personal Information</h1>
+        <p>Full Name: <span th:text="${personalInfo.fullName}"></span></p>
+        <p>Date of Birth: <span th:text="${personalInfo.dateOfBirth}"></span></p>
+        <p>Gender: <span th:text="${personalInfo.gender}"></span></p>
+        <p>Civil Status: <span th:text="${personalInfo.civilStatus}"></span></p>
+        <p>Email: <span th:text="${personalInfo.email}"></span></p>
+        <p>Phone: <span th:text="${personalInfo.phone}"></span></p>
+        <p>Address: <span th:text="${personalInfo.address}"></span></p>
+
+        <form action="/api/personal-information/confirm" method="post">
+            <button type="submit">Confirm</button>
+        </form>
+        <form action="/api/personal-information/edit" method="get">
+            <button type="submit">Edit</button>
+        </form>
+    </div>
+</body>
+</html>
