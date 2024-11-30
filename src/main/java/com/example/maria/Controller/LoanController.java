@@ -17,26 +17,37 @@ import com.example.maria.service.LoanService;
 @RestController
 @RequestMapping("/api/loans")
 public class LoanController {
+
     @Autowired
     private LoanService loanService;
 
+    // Apply for a new loan
     @PostMapping
     public Loan applyForLoan(@RequestBody Loan loanApplication) {
-        return loanService.createLoanApplication(loanApplication);
+        return loanService.applyLoan(loanApplication);
     }
 
+    // Get all loans (for admin dashboard)
     @GetMapping
     public List<Loan> getAllLoans() {
-        return loanService.getAllLoanApplications();
+        return loanService.getAllLoans();
     }
 
+    // Approve a loan application
     @PutMapping("/{loanId}/approve")
     public Loan approveLoan(@PathVariable Long loanId) {
-        return loanService.approveLoan(loanId);
+        return loanService.approveOrRejectLoan(loanId, "APPROVED");
     }
 
+    // Reject a loan application
     @PutMapping("/{loanId}/reject")
     public Loan rejectLoan(@PathVariable Long loanId) {
-        return loanService.rejectLoan(loanId);
+        return loanService.approveOrRejectLoan(loanId, "REJECTED");
+    }
+
+    // Get transaction history for a specific user
+    @GetMapping("/user/{userId}")
+    public List<Loan> getTransactionHistoryByUserId(@PathVariable Long userId) {
+        return loanService.getLoanHistory(userId);
     }
 }

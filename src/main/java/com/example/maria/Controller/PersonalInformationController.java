@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.maria.entity.PersonalInformation;
+import com.example.maria.entity.User;
 import com.example.maria.service.PersonalInformationService;
+import com.example.maria.service.UserService;
 
 @Controller
 @RequestMapping("/api/personal-information")
@@ -23,7 +26,8 @@ public class PersonalInformationController {
 
     @Autowired
     private PersonalInformationService service;
-
+    @Autowired
+    private UserService userService;
     private PersonalInformation tempInfo;  // Temporary storage for review
 
     // Method to review personal information before saving
@@ -105,5 +109,10 @@ public class PersonalInformationController {
         List<PersonalInformation> personalInfoList = service.getAllPersonalInformation();
         model.addAttribute("personalInfoList", personalInfoList);
         return "list"; // This will map to list.html to display the data
+    }
+    @GetMapping("/user/{userId}/about")
+    public PersonalInformation getUserPersonalInfo(@PathVariable Long userId) {
+        User user = userService.findById(userId);  // Assuming you have a service to find the user
+        return service.findByUser(user);  // Get personal info based on user
     }
 }

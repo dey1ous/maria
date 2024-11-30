@@ -1,23 +1,50 @@
-<!-- loan.html -->
-<div id="loan" class="form-content">
-    <h2>Loan Application</h2>
-    <form>
-        <div class="form-group">
-            <label for="applicant-name">Applicant Name</label>
-            <input type="text" id="applicant-name" name="applicant-name" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loaning System</title>
+    <link rel="stylesheet" href="css/loan.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Loaning System</h1>
         </div>
-        <div class="form-group">
-            <label for="loan-amount">Loan Amount</label>
-            <input type="number" id="loan-amount" name="loan-amount" required>
-        </div>
-        <div class="form-group">
-            <label for="term">Loan Term (months)</label>
-            <input type="number" id="term" name="term" required>
-        </div>
-        <div class="form-group">
-            <label for="interest-rate">Interest Rate (%)</label>
-            <input type="number" step="0.01" id="interest-rate" name="interest-rate" required>
-        </div>
-        <button type="submit" class="btn-primary">Apply for Loan</button>
-    </form>
-</div>
+        <!-- Loan Application Section -->
+        <section id="loanApplication">
+            <h2>Apply for Loan</h2>
+            <form id="loanForm">
+                <label for="amount">Loan Amount:</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter loan amount" step="0.01" required>
+                <button type="submit">Submit Loan Application</button>
+                <div id="loanResponse" class="response"></div>
+            </form>
+        </section>
+
+        <!-- Transaction History Section -->
+        <section id="transactionHistory">
+            <h2>Transaction History</h2>
+            <form id="historyForm">
+                <label for="userId">User ID:</label>
+                <input type="number" id="userId" name="userId" placeholder="Enter your User ID" required>
+                <button type="submit">View History</button>
+            </form>
+            <table id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Loan ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Application Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Transactions will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </section>
+
+    <!-- Link to your JavaScript -->
+    <script src="loan.js"></script>
+</body>
+</html>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.maria.entity.PersonalInformation;
+import com.example.maria.entity.User;
 import com.example.maria.repository.PersonalInformationRepository;
 
 @Service
@@ -23,5 +24,7 @@ public class PersonalInformationService {
     public void deletePersonalInformation(Long id) {
         repository.deleteById(id); // Delete the record by ID
     }
-   
+    public PersonalInformation findByUser(User user) {
+        return repository.findByUser(user);
+    }
 }

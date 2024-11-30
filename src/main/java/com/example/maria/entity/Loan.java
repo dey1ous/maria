@@ -1,7 +1,4 @@
 package com.example.maria.entity;
-
-
-
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -16,25 +13,15 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
+
+    private Long userId; // References the User ID
     private Double amount;
-    private String status; // "PENDING", "APPROVED", "REJECTED"
+    private String status = "PENDING"; // Default status
 
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime applicationDate;
+    private LocalDateTime applicationDate = LocalDateTime.now(); // Default to now
 
-    public void setStatus(String string) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'setStatus'");
-    }
-
-    public void setApplicationDate(java.util.Date date) {
-    
-        throw new UnsupportedOperationException("Unimplemented method 'setApplicationDate'");
-    }
-
-    // Getters and setters
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -61,6 +48,10 @@ public class Loan {
 
     public String getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public LocalDateTime getApplicationDate() {
