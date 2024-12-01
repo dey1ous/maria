@@ -10,4 +10,5 @@ import com.example.maria.entity.User;
 public interface PersonalInformationRepository extends JpaRepository<PersonalInformation, Long> {
     List<PersonalInformation> findByUserId(Long userId);
     PersonalInformation findByUser(User user);
+    
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 
 
@@ -20,6 +21,8 @@ public class User {
     private String role; // "USER" or "ADMIN"
     private String fullName; // Changed from address/contactNumber
 
+     @OneToOne(mappedBy = "user")
+    
     // Getters and Setters
     public String getFullName() {
         return fullName;

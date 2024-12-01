@@ -8,14 +8,13 @@
 </head>
 <body>
 
-
 <div id="sidebar" class="sidebar">
     <button class="closebtn" onclick="closeNav()">Close</button>
-    <a href="#home" onclick="loadContent('/html/home.html')">Home</a>
-    <a href="#about" onclick="loadContent('/html/about.html')">About</a>
-    <a href="#notification" onclick="loadContent('/html/notification.html')">Notifications</a>
-    <a href="#loan" onclick="loadContent('/html/loan.html')">Services</a>
-    <a href="#register" onclick="loadContent('/html/register.html')">Profile</a>
+    <a href="#home" onclick="changeHash('home')">Home</a>
+    <a href="#about" onclick="changeHash('about')">About</a>
+    <a href="#notification" onclick="changeHash('notification')">Notifications</a>
+    <a href="#loan" onclick="changeHash('loan')">Services</a>
+    <a href="#register" onclick="changeHash('register')">Profile</a>
 </div>
 
 <div id="main">
@@ -24,11 +23,10 @@
 
 <div class="container">
     <div class="tab">
-        <button onclick="loadContent('/html/register.html')">Account</button>
-        <button onclick="loadContent('/html/loan.html')">Loaning System</button>
-        
+        <button onclick="changeHash('account')">Account</button>
+        <button onclick="changeHash('loan')">Loaning System</button>
     </div>
-    
+
     <!-- Content Area -->
     <div id="content" class="form-content">
         <!-- Content will be loaded here -->
@@ -37,42 +35,58 @@
 
 <script src="/js/script.js"></script>
 <script>
+    // Load content dynamically based on hash
     function loadContent(file) {
         fetch(file)
             .then(response => response.text())
             .then(html => {
                 document.getElementById("content").innerHTML = html;
+                
+                // Dynamically load JavaScript for specific content
+                if (file === '/html/loan.html') {
+                    const script = document.createElement('script');
+                    script.src = '/js/loan.js';
+                    document.body.appendChild(script);
+                }
+
+                if (file === '/html/about.html') {
+                    const script = document.createElement('script');
+                    script.src = '/js/about.js'; // Ensure you have a specific script for About if necessary
+                    document.body.appendChild(script);
+                }
             })
             .catch(error => console.error('Error loading content:', error));
     }
 
+    // Change hash and load corresponding content
+    function changeHash(page) {
+        window.location.hash = page; // Set the hash
+        loadContent(`/html/${page}.html`); // Load the corresponding content
+    }
+
+    // Open sidebar
     function openNav() {
         document.getElementById("sidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
     }
 
+    // Close sidebar
     function closeNav() {
         document.getElementById("sidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
 
-    // Load the registration tab by default on page load
-    window.onload = () => loadContent('/html/home.html');
-    function loadContent(file) {
-    fetch(file)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("content").innerHTML = html;
-            // Dynamically load the JavaScript for the content
-            if (file === '/html/loan.html') {
-                const script = document.createElement('script');
-                script.src = '/js/loan.js';
-                document.body.appendChild(script);
-            }
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
+    // Handle page load and hash changes
+    function handleHashChange() {
+        const page = window.location.hash.replace('#', '') || 'home'; // Default to 'home' if no hash
+        loadContent(`/html/${page}.html`);
+    }
 
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+
+    // Initial load on page load
+    window.onload = handleHashChange;
 </script>
 
 </body>

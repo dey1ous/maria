@@ -8,14 +8,14 @@
 </head>
 <body>
 
-    <!-- Admin Loan View Section -->
     <div class="container">
+        <div class="header">
         <h1>Admin Loan Applications</h1>
-
+        </div>
         <!-- Loan List Table -->
-        <section id="loanListSection">
+        <section id="adminLoanSection">
             <h2>All Loan Applications</h2>
-            <table id="loanListTable">
+            <table id="adminLoanTable">
                 <thead>
                     <tr>
                         <th>Loan ID</th>
@@ -37,12 +37,12 @@
         // Fetch all loan applications for the admin
         async function fetchAllLoans() {
             try {
-                const response = await fetch('/api/loans');
+                const response = await fetch('/admin/loans');
                 const loans = await response.json();
 
                 if (loans.length > 0) {
                     // Populate the loan list table
-                    const tableBody = document.getElementById("loanListTable").querySelector("tbody");
+                    const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
                     tableBody.innerHTML = ""; // Clear any existing rows
 
                     loans.forEach(loan => {
@@ -63,7 +63,7 @@
                 } else {
                     const row = document.createElement("tr");
                     row.innerHTML = "<td colspan='6'>No loan applications found</td>";
-                    document.getElementById("loanListTable").querySelector("tbody").appendChild(row);
+                    document.getElementById("adminLoanTable").querySelector("tbody").appendChild(row);
                 }
             } catch (error) {
                 console.error("Error fetching loan applications:", error);

@@ -105,14 +105,26 @@ public class PersonalInformationController {
 
     // Method to retrieve and display all personal information for the admin dashboard
     @GetMapping("/all")
-    public String getAllPersonalInformation(Model model) {
-        List<PersonalInformation> personalInfoList = service.getAllPersonalInformation();
-        model.addAttribute("personalInfoList", personalInfoList);
-        return "list"; // This will map to list.html to display the data
+    public List<PersonalInformation> getAllPersonalInformation() {
+        return service.getAllPersonalInformation();
+        
     }
+
     @GetMapping("/user/{userId}/about")
     public PersonalInformation getUserPersonalInfo(@PathVariable Long userId) {
         User user = userService.findById(userId);  // Assuming you have a service to find the user
         return service.findByUser(user);  // Get personal info based on user
     }
+    @PostMapping("/delete-user/{id}")
+public String deleteUser(@PathVariable Long id, Model model) {
+    try {
+        service.deletePersonalInformation(id);  // Correct method call
+        model.addAttribute("message", "User deleted successfully!");
+        return "list";  // Redirect after deletion
+    } catch (Exception e) {
+        model.addAttribute("message", "Error deleting user: " + e.getMessage());
+        return "error";  // Redirect to error page
+    }
+}
+
 }

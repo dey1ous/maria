@@ -11,8 +11,8 @@
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <button class="closebtn" onclick="closeNav()">Close</button>
-    <a href="#list" onclick="loadContent('/html/list.html')">List of User</a>
-    <a href="#Loans" onclick="loadContent('/html/adminloan.html')">Loan</a>
+    <a href="#list">List of User</a>
+    <a href="#Loans">Loan</a>
     <!-- Logout button in the sidebar -->
     <a href="/logout">Logout</a>
 </div>
@@ -22,30 +22,51 @@
     <button class="openbtn" onclick="openNav()">&#9776;</button>
 </div>
 
-    <!-- Content Area -->
-    <div id="content" class="form-content">
-        <!-- Admin Loan View Section -->
-        <div id="adminLoanSection" style="display: none;">
-            <h2>All Loan Applications</h2>
-            <table id="adminLoanTable" class="table">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Loan ID</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Application Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- All loan applications will be dynamically loaded here -->
-                </tbody>
-            </table>
-        </div>
+<!-- Content Area -->
+<div id="content" class="form-content">
+    <!-- Admin Loan View Section -->
+    <div id="adminLoanSection" style="display: none;">
+        <h2>All Loan Applications</h2>
+        <table id="adminLoanTable" class="table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Loan ID</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Application Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- All loan applications will be dynamically loaded here -->
+            </tbody>
+        </table>
     </div>
 </div>
 
+<div id="personalInfoSection" style="display: none;">
+    <h2>List of Users Personal Information</h2>
+    <table id="personalInfoTable" class="table">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Civil Status</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Personal information will be dynamically loaded here -->
+        </tbody>
+    </table>
+</div>
+</div>
 <!-- JavaScript -->
 <script src="/js/adminscript.js"></script>
 <script>
@@ -63,19 +84,82 @@
 
     // Function to load content dynamically
     function loadContent(file) {
-        fetch(file)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById("content").innerHTML = html;
-            })
-            .catch(error => console.error('Error loading content:', error));
+    fetch(file)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("content").innerHTML = html;
+
+            // Initialize functionalities based on the loaded file
+            if (file.includes("adminloan.html")) {
+                fetchAllLoans();
+            } else if (file.includes("list.html")) {
+                // Fetch and display personal information for the list page
+                fetchPersonalInfo();
+            }
+        })
+        .catch(error => console.error('Error loading content:', error));
+}
+
+async function fetchPersonalInfo() {
+    try {
+        const response = await fetch('/api/personal-information/all');  // API for admin to fetch personal info
+        const personalInfoList = await response.json();
+
+        const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
+
+        if (personalInfoList.length > 0) {
+            personalInfoList.forEach(info => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${info.id}</td>
+                    <td>${info.fullName}</td>
+                    <td>${info.dateOfBirth}</td>
+                    <td>${info.gender}</td>
+                    <td>${info.civilStatus}</td>
+                    <td>${info.email}</td>
+                    <td>${info.phone}</td>
+                    <td>${info.address}</td>
+                    <td>
+                        <form th:action="@{/admin/delete-user/{id}(id=${info.id})}" method="post" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            const row = document.createElement("tr");
+            row.innerHTML = "<td colspan='9'>No personal information available</td>";
+            tableBody.appendChild(row);
+        }
+    } catch (error) {
+        console.error("Error fetching personal information:", error);
+        alert("Failed to fetch personal information.");
+    }
+}
+
+    // Handle hash-based navigation
+    function handleHashNavigation() {
+        const hash = window.location.hash;
+
+        switch (hash) {
+            case "#Loans":
+                loadContent('/html/adminloan.html');
+                break;
+            case "#list":
+                loadContent('/html/list.html');
+                break;
+            default:
+                loadContent('/html/list.html'); // Default view
+        }
     }
 
-    // Show Admin Loan View
-    function showAdminLoans() {
-        document.getElementById("adminLoanSection").style.display = 'block';  // Show the admin loan section
-        fetchAllLoans(); // Fetch loans for the admin
-    }
+    // Listen for hash changes and load the corresponding content
+    window.addEventListener("hashchange", handleHashNavigation);
+
+    // Call the function on page load to load the current hash content
+    window.onload = handleHashNavigation;
 
     // Fetch all loans for the admin
     async function fetchAllLoans() {
@@ -150,10 +234,6 @@
             alert("Error rejecting the loan.");
         }
     }
-    window.onload = function () {
-    loadContent('/html/list.html'); // Load the default view on page load
-};
-
 </script>
 
 </body>
