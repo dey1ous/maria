@@ -37,4 +37,5 @@ public class LoanService {
         loan.setStatus(status);
         return loanRepository.save(loan);
     }
+    
 }

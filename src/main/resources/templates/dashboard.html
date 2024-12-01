@@ -58,7 +58,21 @@
 
     // Load the registration tab by default on page load
     window.onload = () => loadContent('/html/home.html');
-    
+    function loadContent(file) {
+    fetch(file)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("content").innerHTML = html;
+            // Dynamically load the JavaScript for the content
+            if (file === '/html/loan.html') {
+                const script = document.createElement('script');
+                script.src = '/js/loan.js';
+                document.body.appendChild(script);
+            }
+        })
+        .catch(error => console.error('Error loading content:', error));
+}
+
 </script>
 
 </body>

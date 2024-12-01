@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/admindashboard.css">
 </head>
 <body>
 
@@ -12,9 +12,9 @@
 <div id="sidebar" class="sidebar">
     <button class="closebtn" onclick="closeNav()">Close</button>
     <a href="#list" onclick="loadContent('/html/list.html')">List of User</a>
-    <a href="#Loans" onclick="loadContent('/html/loan.html')">Loan</a>
+    <a href="#Loans" onclick="loadContent('/html/adminloan.html')">Loan</a>
     <!-- Logout button in the sidebar -->
-    <a href="/logout">Logout</a>  <!-- This is where the user will be logged out -->
+    <a href="/logout">Logout</a>
 </div>
 
 <!-- Main content area -->
@@ -22,17 +22,9 @@
     <button class="openbtn" onclick="openNav()">&#9776;</button>
 </div>
 
-<!-- Container for tabs and content -->
-<div class="container">
-    <div class="tab">
-        <button onclick="loadContent('/html/list.html')">List of User</button>
-        <button onclick="loadContent('/html/loan.html')">Loaning System</button>
-        <button onclick="showAdminLoans()">Admin View of Loans</button>
-    </div>
-
     <!-- Content Area -->
     <div id="content" class="form-content">
-        <!-- Content will be loaded here -->
+        <!-- Admin Loan View Section -->
         <div id="adminLoanSection" style="display: none;">
             <h2>All Loan Applications</h2>
             <table id="adminLoanTable" class="table">
@@ -43,10 +35,11 @@
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Application Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- All loan applications will be loaded here -->
+                    <!-- All loan applications will be dynamically loaded here -->
                 </tbody>
             </table>
         </div>
@@ -54,7 +47,7 @@
 </div>
 
 <!-- JavaScript -->
-<script src="/js/script.js"></script>
+<script src="/js/adminscript.js"></script>
 <script>
     // Function to open the sidebar
     function openNav() {
@@ -102,12 +95,16 @@
                         <td>${loan.amount.toFixed(2)}</td>
                         <td>${loan.status}</td>
                         <td>${loan.applicationDate}</td>
+                        <td>
+                            <button onclick="approveLoan(${loan.id})">Approve</button>
+                            <button onclick="rejectLoan(${loan.id})">Reject</button>
+                        </td>
                     `;
                     tableBody.appendChild(row);
                 });
             } else {
                 const row = document.createElement("tr");
-                row.innerHTML = "<td colspan='5'>No loan applications found</td>";
+                row.innerHTML = "<td colspan='6'>No loan applications found</td>";
                 tableBody.appendChild(row);
             }
         } catch (error) {
@@ -115,6 +112,48 @@
             alert("Failed to fetch loan applications.");
         }
     }
+
+    // Approve loan
+    async function approveLoan(loanId) {
+        try {
+            const response = await fetch(`/admin/loan/${loanId}/approve`, {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                alert("Loan approved successfully.");
+                fetchAllLoans();  // Refresh the loan list
+            } else {
+                alert("Failed to approve the loan.");
+            }
+        } catch (error) {
+            console.error("Error approving loan:", error);
+            alert("Error approving the loan.");
+        }
+    }
+
+    // Reject loan
+    async function rejectLoan(loanId) {
+        try {
+            const response = await fetch(`/admin/loan/${loanId}/reject`, {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                alert("Loan rejected successfully.");
+                fetchAllLoans();  // Refresh the loan list
+            } else {
+                alert("Failed to reject the loan.");
+            }
+        } catch (error) {
+            console.error("Error rejecting loan:", error);
+            alert("Error rejecting the loan.");
+        }
+    }
+    window.onload = function () {
+    loadContent('/html/list.html'); // Load the default view on page load
+};
+
 </script>
 
 </body>
