@@ -32,61 +32,102 @@
         <!-- Content will be loaded here -->
     </div>
 </div>
+<footer>
+    <a href="#" id="contact-link" onclick="openContactModal()">Contact Us</a>
+</footer>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeContactModal()">&times;</span>
+        <h2>Contact Us</h2>
+        <form action="/contact" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required><br><br>
+
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="5" required></textarea><br><br>
+
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
 
 <script src="/js/script.js"></script>
 <script>
-    // Load content dynamically based on hash
-    function loadContent(file) {
-        fetch(file)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById("content").innerHTML = html;
-                
-                // Dynamically load JavaScript for specific content
-                if (file === '/html/loan.html') {
-                    const script = document.createElement('script');
-                    script.src = '/js/loan.js';
-                    document.body.appendChild(script);
-                }
+   // Load content dynamically based on hash
+   function loadContent(page) {
+    // Define the file path based on the page hash
+    const file = `/html/${page}.html`; // Ensure this path is correct
+    
+    // Fetch the corresponding content based on the page name (home, about, etc.)
+    fetch(file)
+        .then(response => response.text())
+        .then(html => {
+            // Update the content area with the fetched HTML
+            document.getElementById("content").innerHTML = html;
+        })
+        .catch(error => console.error('Error loading content:', error));
+}
 
-                if (file === '/html/about.html') {
-                    const script = document.createElement('script');
-                    script.src = '/js/about.js'; // Ensure you have a specific script for About if necessary
-                    document.body.appendChild(script);
-                }
-            })
-            .catch(error => console.error('Error loading content:', error));
+// Change hash and load corresponding content
+function changeHash(page) {
+    window.location.hash = page; // Set the hash
+    loadContent(page); // Load the corresponding content
+}
+
+// Handle page load and hash changes
+function handleHashChange() {
+    const page = window.location.hash.replace('#', '') || 'home'; // Default to 'home' if no hash
+    loadContent(page); // Load content based on the hash
+}
+
+// Listen for hash changes
+window.addEventListener('hashchange', handleHashChange);
+
+// Initial load on page load
+window.onload = function() {
+    if (window.location.hash === '') {
+        window.location.hash = 'home'; // Default to 'home' if no hash is present
     }
+    handleHashChange(); // Load content when the page is first loaded
+};
 
-    // Change hash and load corresponding content
-    function changeHash(page) {
-        window.location.hash = page; // Set the hash
-        loadContent(`/html/${page}.html`); // Load the corresponding content
+// Open sidebar
+function openNav() {
+    document.getElementById("sidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+// Close sidebar
+function closeNav() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
+
+// Open Contact Modal
+function openContactModal() {
+    document.getElementById('contactModal').style.display = 'block';
+}
+
+// Close the Contact Modal
+function closeContactModal() {
+    document.getElementById('contactModal').style.display = 'none';
+}
+
+// Close modal when clicking outside the modal content
+window.onclick = function(event) {
+    const modal = document.getElementById('contactModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
     }
-
-    // Open sidebar
-    function openNav() {
-        document.getElementById("sidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-    }
-
-    // Close sidebar
-    function closeNav() {
-        document.getElementById("sidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-    }
-
-    // Handle page load and hash changes
-    function handleHashChange() {
-        const page = window.location.hash.replace('#', '') || 'home'; // Default to 'home' if no hash
-        loadContent(`/html/${page}.html`);
-    }
-
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleHashChange);
-
-    // Initial load on page load
-    window.onload = handleHashChange;
+};
 </script>
 
 </body>
