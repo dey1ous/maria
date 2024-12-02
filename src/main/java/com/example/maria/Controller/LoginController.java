@@ -28,13 +28,18 @@ public class LoginController {
         // Fetch user from database
         User user = userRepository.findByUsername(username);
 
-        if (user != null && user.getPassword().equals(password)) {
-            // Store user in session
+        if (user == null) {
+            // Username does not exist
+            modelAndView.setViewName("login");
+            modelAndView.addObject("error", "Username does not exist.");
+        } else if (!user.getPassword().equals(password)) {
+            // Password does not match
+            modelAndView.setViewName("login");
+            modelAndView.addObject("error", "Incorrect password.");
+        } else {
+            // Successful login
             session.setAttribute("user", user);
             modelAndView.setViewName("redirect:/dashboard");
-        } else {
-            modelAndView.setViewName("login");
-            modelAndView.addObject("error", "Invalid username or password.");
         }
 
         return modelAndView;

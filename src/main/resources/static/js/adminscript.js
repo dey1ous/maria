@@ -99,3 +99,46 @@ async function rejectLoan(loanId) {
         alert("Error rejecting the loan.");
     }
 }
+async function fetchPersonalInfo() {
+    try {
+        const response = await fetch('/api/personal-information/all');  // Ensure this API exists
+        const personalInfoList = await response.json();
+
+        if (response.ok && Array.isArray(personalInfoList)) {
+            const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
+            tableBody.innerHTML = ""; // Clear existing rows
+
+            if (personalInfoList.length > 0) {
+                personalInfoList.forEach(info => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${info.id}</td>
+                        <td>${info.fullName}</td>
+                        <td>${info.dateOfBirth}</td>
+                        <td>${info.gender}</td>
+                        <td>${info.civilStatus}</td>
+                        <td>${info.email}</td>
+                        <td>${info.phone}</td>
+                        <td>${info.address}</td>
+                        <td>
+                            <form action="/admin/delete-user/${info.id}" method="post" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement("tr");
+                row.innerHTML = "<td colspan='9'>No personal information available</td>";
+                tableBody.appendChild(row);
+            }
+        } else {
+            console.error("Failed to fetch personal information or response not valid");
+            alert("Failed to fetch personal information.");
+        }
+    } catch (error) {
+        console.error("Error fetching personal information:", error);
+        alert("Failed to fetch personal information.");
+    }
+}

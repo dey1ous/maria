@@ -12,15 +12,40 @@
         <div class="org-name">Simbayanan ni Maria Cooperative</div>
         <h2>WEB PORTAL</h2>
         <form action="/register" method="post">
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="text" name="name" placeholder="Name" required />
-            <input type="text" name="username" placeholder="Username" required />
+            <input type="text" name="email" placeholder="Email" required />
+            <input type="text" name="name" placeholder="Full Name" required />
+            <div class="form-group">
+                <input type="text" name="username" id="username" placeholder="Username" required />
+                <p id="username-warning" class="warning-message" style="color: red; font-size: 0.9em; display: none;">Username already exists. Please choose another.</p>
+            </div>
             <input type="password" name="password" placeholder="Password" required />
             <button type="submit">Register</button>
         </form>
+        
         <div class="footer-links">
             <p>Have an account?<a href="/login">Login</a></p>
         </div>
     </div>
+    <script>
+        document.getElementById('username').addEventListener('input', function () {
+            const username = this.value;
+            const warningMessage = document.getElementById('username-warning');
+    
+            if (username.length > 0) {
+                fetch(`/check-username?username=${encodeURIComponent(username)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.exists) {
+                            warningMessage.style.display = 'block';
+                        } else {
+                            warningMessage.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error checking username:', error));
+            } else {
+                warningMessage.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
