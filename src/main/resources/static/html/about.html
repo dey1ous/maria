@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
-    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="/css/about.css">
 </head>
 <body>
-    <div class="about-container">
+    <div class="header">
         <h1>About User</h1>
-        <div id="userInfo">
-            <p><strong>Full Name:</strong> <span id="fullName"></span></p>
-            <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
-            <p><strong>Gender:</strong> <span id="gender"></span></p>
-            <p><strong>Civil Status:</strong> <span id="civilStatus"></span></p>
-            <p><strong>Email:</strong> <span id="email"></span></p>
-            <p><strong>Phone:</strong> <span id="phone"></span></p>
-            <p><strong>Address:</strong> <span id="address"></span></p>
-            <p><strong>Valid ID:</strong> <span id="validId"></span></p>
-        </div>
+    </div>
+    <div id="userInfo">
+        <p><strong>User ID:</strong> <span id="userId"></span></p>
+        <p><strong>Full Name:</strong> <span id="fullName"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
+        <p><strong>Gender:</strong> <span id="gender"></span></p>
+        <p><strong>Civil Status:</strong> <span id="civilStatus"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>Phone:</strong> <span id="phone"></span></p>
+        <p><strong>Address:</strong> <span id="address"></span></p>
+        <p><strong>Valid ID:</strong> <span id="validId"></span></p>
     </div>
 
     <script>
@@ -27,6 +28,7 @@
         fetch(`/user/${userId}/about`)
             .then(response => response.json())
             .then(data => {
+                document.getElementById("userId").innerText = userId;  // Display the user_id
                 document.getElementById("fullName").innerText = data.fullName;
                 document.getElementById("dob").innerText = data.dateOfBirth;
                 document.getElementById("gender").innerText = data.gender;
@@ -38,6 +40,7 @@
             })
             .catch(error => console.error("Error fetching user data:", error));
     </script>
-     <script src="js/about.js"></script> 
+
+    <script src="/js/about.js"></script>
 </body>
 </html>

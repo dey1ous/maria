@@ -1,8 +1,9 @@
 package com.example.maria.Controller;
 
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.maria.entity.Loan;
+import com.example.maria.entity.PersonalInformation;
+import com.example.maria.repository.PersonalInformationRepository;
 import com.example.maria.service.LoanService;
 
 @RestController
@@ -19,7 +22,8 @@ import com.example.maria.service.LoanService;
 public class UserController {
     @Autowired
     private LoanService loanService;
-
+    @Autowired
+    private PersonalInformationRepository personalInformationRepository;
     // Endpoint to submit a loan application
     @PostMapping("/loan")
     public ResponseEntity<String> applyForLoan(@RequestBody Loan loan) {
@@ -36,5 +40,15 @@ public class UserController {
     public ResponseEntity<List<Loan>> getLoanHistory(@PathVariable Long userId) {
         List<Loan> loans = loanService.getLoanHistory(userId);
         return loans.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(loans);
+    }
+     @GetMapping("/{userId}/about")
+    public ResponseEntity<PersonalInformation> getUserInfo(@PathVariable Long userId) {
+        Optional<PersonalInformation> personalInfo = personalInformationRepository.findByUserId(userId);
+        
+        if (personalInfo.isPresent()) {
+            return ResponseEntity.ok(personalInfo.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
