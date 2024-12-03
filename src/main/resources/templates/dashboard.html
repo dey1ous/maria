@@ -61,73 +61,99 @@
 
 <script src="/js/script.js"></script>
 <script>
-   // Load content dynamically based on hash
-   function loadContent(page) {
-    // Define the file path based on the page hash
-    const file = `/html/${page}.html`; // Ensure this path is correct
-    
-    // Fetch the corresponding content based on the page name (home, about, etc.)
-    fetch(file)
-        .then(response => response.text())
-        .then(html => {
-            // Update the content area with the fetched HTML
-            document.getElementById("content").innerHTML = html;
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
+    // Load content dynamically based on hash and its specific script
+    function loadContent(page) {
+        const file = `/html/${page}.html`; // Path to the HTML file
+        const scriptFile = `/js/${page}.js`; // Path to the JS file
 
-// Change hash and load corresponding content
-function changeHash(page) {
-    window.location.hash = page; // Set the hash
-    loadContent(page); // Load the corresponding content
-}
+        // Fetch the HTML content dynamically
+        fetch(file)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Page not found: ${file}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                // Update the content area with the fetched HTML
+                document.getElementById("content").innerHTML = html;
 
-// Handle page load and hash changes
-function handleHashChange() {
-    const page = window.location.hash.replace('#', '') || 'home'; // Default to 'home' if no hash
-    loadContent(page); // Load content based on the hash
-}
-
-// Listen for hash changes
-window.addEventListener('hashchange', handleHashChange);
-
-// Initial load on page load
-window.onload = function() {
-    if (window.location.hash === '') {
-        window.location.hash = 'home'; // Default to 'home' if no hash is present
+                // Dynamically load the corresponding script for the page
+                loadScript(scriptFile);
+            })
+            .catch(error => console.error('Error loading content:', error));
     }
-    handleHashChange(); // Load content when the page is first loaded
-};
 
-// Open sidebar
-function openNav() {
-    document.getElementById("sidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-}
+    // Function to load a JavaScript file dynamically
+    function loadScript(scriptFile) {
+        // Check if the script is already loaded to avoid duplicates
+        const existingScript = document.querySelector(`script[src="${scriptFile}"]`);
+        if (existingScript) {
+            console.log(`Script already loaded: ${scriptFile}`);
+            return;
+        }
 
-// Close sidebar
-function closeNav() {
-    document.getElementById("sidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-
-// Open Contact Modal
-function openContactModal() {
-    document.getElementById('contactModal').style.display = 'block';
-}
-
-// Close the Contact Modal
-function closeContactModal() {
-    document.getElementById('contactModal').style.display = 'none';
-}
-
-// Close modal when clicking outside the modal content
-window.onclick = function(event) {
-    const modal = document.getElementById('contactModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
+        // Create a new script element and append it to the document
+        const script = document.createElement('script');
+        script.src = scriptFile;
+        script.type = 'text/javascript';
+        script.onload = () => console.log(`Script loaded: ${scriptFile}`);
+        script.onerror = () => console.error(`Failed to load script: ${scriptFile}`);
+        document.body.appendChild(script);
     }
-};
+
+    // Change hash and load corresponding content
+    function changeHash(page) {
+        window.location.hash = page; // Set the hash
+        loadContent(page); // Load the corresponding content
+    }
+
+    // Handle page load and hash changes
+    function handleHashChange() {
+        const page = window.location.hash.replace('#', '') || 'home'; // Default to 'home' if no hash
+        loadContent(page); // Load content based on the hash
+    }
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+
+    // Initial load on page load
+    window.onload = function() {
+        if (window.location.hash === '') {
+            window.location.hash = 'home'; // Default to 'home' if no hash is present
+        }
+        handleHashChange(); // Load content when the page is first loaded
+    };
+
+    // Open sidebar
+    function openNav() {
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    // Close sidebar
+    function closeNav() {
+        document.getElementById("sidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+
+    // Open Contact Modal
+    function openContactModal() {
+        document.getElementById('contactModal').style.display = 'block';
+    }
+
+    // Close the Contact Modal
+    function closeContactModal() {
+        document.getElementById('contactModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside the modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('contactModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
 </script>
 
 </body>

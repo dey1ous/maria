@@ -2,6 +2,7 @@ package com.example.maria.Controller;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,6 @@ public class UserController {
             return ResponseEntity.status(500).body("Error submitting loan.");
         }
     }
-
     // Endpoint to get a user's transaction history
     @GetMapping("/loans/{userId}")
     public ResponseEntity<List<Loan>> getLoanHistory(@PathVariable Long userId) {

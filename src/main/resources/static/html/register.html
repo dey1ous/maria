@@ -7,23 +7,22 @@
     <link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
-    <div class="form-container">
+    <div class="header">
         <h2>Personal Information</h2>
+    </div>
+    <div class="form-container">
         <form id="registerForm" action="/api/personal-information/review" method="post" enctype="multipart/form-data">
-            <!-- Basic Details -->
             <label for="full-name">Full Name</label>
-            <input type="text" id="full-name" name="full_name" required>
+            <input type="text" id="full-name" name="full_name" required placeholder="Enter your full name">
 
             <label for="date-of-birth">Date of Birth</label>
             <input type="date" id="date-of-birth" name="date_of_birth" required>
-
             <label for="gender">Gender</label>
             <select id="gender" name="gender" required>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
             </select>
-
             <label for="civil-status">Civil Status</label>
             <select id="civil-status" name="civil_status">
                 <option value="single">Single</option>
@@ -32,48 +31,22 @@
             </select>
 
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required placeholder="Enter your email address">
 
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="1234567891">
+            <input type="tel" id="phone" name="phone" placeholder="12345678911" pattern="[0-9]{11}" required>
 
             <label for="address">Address</label>
-            <textarea id="address" name="address" rows="3" placeholder="Street, City, Region, ZIP code"></textarea>
+            <textarea id="address" name="address" rows="3" placeholder="Street, City, Region, ZIP code" required></textarea>
 
             <label for="valid-id">Upload Valid ID</label>
             <input type="file" id="valid-id" name="valid_id" accept="image/*,application/pdf" required>
 
-            <!-- Submit Button -->
             <button type="submit">Save Personal Information</button>
         </form>
     </div>
 
-    <script>
-        // Add event listener for form submission
-        document.getElementById("registerForm").addEventListener("submit", function (event) {
-            event.preventDefault();  // Prevent the default form submission
-
-            const formData = new FormData(this);  // Collect form data
-
-            // Submit form data using Fetch API
-            fetch("/api/personal-information/review", {
-                method: "POST",
-                body: formData
-            })
-                .then(response => response.json())  // Parse response as JSON
-                .then(data => {
-                    if (data.success) {
-                        alert("Data saved successfully!");
-                        window.location.href = "/dashboard#register";  // Redirect after successful submission
-                    } else {
-                        alert("Error saving data. Please try again.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);  // Log any errors
-                    alert("Error saving data. Please try again.");
-                });
-        });
-    </script>
+    <!-- External JavaScript -->
+    <script src="/js/register.js"></script>
 </body>
 </html>

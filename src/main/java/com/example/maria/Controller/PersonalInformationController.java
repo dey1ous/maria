@@ -100,7 +100,7 @@ public class PersonalInformationController {
             // Prefill the registration form with the temporary data
             model.addAttribute("personalInfo", tempInfo);
         }
-        return "register";  // Redirects to register.html
+        return "dashboard";  
     }
 
     // Method to retrieve and display all personal information for the admin dashboard

@@ -21,10 +21,11 @@ public class LoanController {
     @Autowired
     private LoanService loanService;
 
-    // Apply for a new loan
+
     @PostMapping
     public Loan applyForLoan(@RequestBody Loan loanApplication) {
         return loanService.applyLoan(loanApplication);
+        
     }
 
     // Get all loans (for admin dashboard)

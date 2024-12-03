@@ -19,7 +19,7 @@ public class Loan {
     private String status = "PENDING"; // Default status
 
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime applicationDate = LocalDateTime.now(); // Default to now
+    private LocalDateTime applicationDate = LocalDateTime.now(); 
 
     // Getters and Setters
     public Long getId() {
