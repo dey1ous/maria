@@ -32,8 +32,7 @@ public class LoanService {
 
     // Approve or reject a loan
     public Loan approveOrRejectLoan(Long loanId, String status) {
-        Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
+        Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new IllegalArgumentException("Loan not found"));
         loan.setStatus(status);
         return loanRepository.save(loan);
     }

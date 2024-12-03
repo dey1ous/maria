@@ -10,7 +10,7 @@ import com.example.maria.repository.UserRepository;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public boolean registerUser(User user) {
         try {
@@ -23,5 +23,12 @@ public class UserService {
     public User findById(Long userId) {
         return userRepository.findById(userId).orElse(null);  // Return null if user not found
     }
-    
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+               
+    }
 }

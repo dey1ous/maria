@@ -1,7 +1,13 @@
+#adminLoanTableContainer {
+    max-height: 400px; /* Adjust this value to control the scrollable area */
+    overflow-y: auto; /* Enables vertical scrolling when content overflows */
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Optional: Adds a border around the container */
+}
+
 #adminLoanTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 #adminLoanTable th, #adminLoanTable td {
@@ -14,19 +20,19 @@ button {
     padding: 5px 10px;
     margin: 5px;
     cursor: pointer;
-    
 }
 
 button:hover {
     background-color: #10518d;
     color: white;
 }
+
 .header {
     text-align: center;
     background-color: #002855;
     color: white;
     padding: 20px;
-    border-radius: 8px 8px 0 0; 
+    border-radius: 8px 8px 0 0;
 }
 
 .header h1 {

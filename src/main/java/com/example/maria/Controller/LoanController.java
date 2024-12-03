@@ -1,8 +1,12 @@
 package com.example.maria.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +26,28 @@ public class LoanController {
     private LoanService loanService;
 
 
+    // Apply for a loan
     @PostMapping
-    public Loan applyForLoan(@RequestBody Loan loanApplication) {
-        return loanService.applyLoan(loanApplication);
-        
-    }
+    @SuppressWarnings("UseSpecificCatch")
+public ResponseEntity<?> applyLoan(@RequestBody Map<String, Object> request) {
+    try {
+        double amount = Double.parseDouble(request.get("amount").toString());
 
-    // Get all loans (for admin dashboard)
+        // Create and save a new loan
+        Loan loan = new Loan();
+        loan.setAmount(amount);
+        loan.setApplicationDate(LocalDateTime.now());
+        loan.setStatus("PENDING");
+
+        loanService.applyLoan(loan);
+        return ResponseEntity.ok(Map.of("message", "Loan application submitted successfully!"));
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Failed to apply for loan: " + e.getMessage()));
+    }
+}
+
+
+    // Get all loans
     @GetMapping
     public List<Loan> getAllLoans() {
         return loanService.getAllLoans();

@@ -1,25 +1,26 @@
 package com.example.maria.entity;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long userId; // References the User ID
+    @Column(name = "user_id", nullable = true) 
+    private Long userId; 
     private Double amount;
-    private String status = "PENDING"; // Default status
+    private String status = "PENDING"; 
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime applicationDate = LocalDateTime.now(); 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime applicationDate; 
 
     // Getters and Setters
     public Long getId() {

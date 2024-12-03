@@ -31,5 +31,4 @@ public class AdminController {
         Loan loan = loanService.approveOrRejectLoan(loanId, status);
         return ResponseEntity.ok(loan);
     }
-    
 }

@@ -10,26 +10,28 @@
 
     <div class="container">
         <div class="header">
-        <h1>Admin Loan Applications</h1>
+            <h1>Admin Loan Applications</h1>
         </div>
         <!-- Loan List Table -->
         <section id="adminLoanSection">
             <h2>All Loan Applications</h2>
-            <table id="adminLoanTable">
-                <thead>
-                    <tr>
-                        <th>Loan ID</th>
-                        <th>User ID</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Application Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loan records will be dynamically inserted here -->
-                </tbody>
-            </table>
+            <div id="adminLoanTableContainer">
+                <table id="adminLoanTable">
+                    <thead>
+                        <tr>
+                            <th>Loan ID</th>
+                            <th>User ID</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Application Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loan records will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
 
@@ -39,27 +41,27 @@
             try {
                 const response = await fetch('/admin/loans');
                 const loans = await response.json();
-
+                
                 if (loans.length > 0) {
                     // Populate the loan list table
                     const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
                     tableBody.innerHTML = ""; // Clear any existing rows
 
                     loans.forEach(loan => {
-                        const row = document.createElement("tr");
-                        row.innerHTML = `
-                            <td>${loan.id}</td>
-                            <td>${loan.userId}</td>
-                            <td>${loan.amount.toFixed(2)}</td>
-                            <td>${loan.status}</td>
-                            <td>${loan.applicationDate}</td>
-                            <td>
-                                <button onclick="approveLoan(${loan.id})">Approve</button>
-                                <button onclick="rejectLoan(${loan.id})">Reject</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
+    const row = document.createElement("tr");
+    row.innerHTML = ` 
+        <td>${loan.id}</td>  <!-- Loan ID -->
+        <td>${loan.userId}</td>  <!-- User ID -->
+        <td>${loan.amount.toFixed(2)}</td>
+        <td>${loan.status}</td>
+        <td>${loan.applicationDate}</td>
+        <td>
+            <button onclick="approveLoan(${loan.id})">Approve</button>
+            <button onclick="rejectLoan(${loan.id})">Reject</button>
+        </td>
+    `;
+    tableBody.appendChild(row);
+});
                 } else {
                     const row = document.createElement("tr");
                     row.innerHTML = "<td colspan='6'>No loan applications found</td>";
@@ -71,10 +73,9 @@
             }
         }
 
-        // Approve loan
         async function approveLoan(loanId) {
             try {
-                const response = await fetch(`/api/loans/${loanId}/approve`, {
+                const response = await fetch(`/admin/loans/${loanId}/status?status=APPROVED`, {
                     method: 'PUT',
                 });
                 const updatedLoan = await response.json();
@@ -89,7 +90,7 @@
         // Reject loan
         async function rejectLoan(loanId) {
             try {
-                const response = await fetch(`/api/loans/${loanId}/reject`, {
+                const response = await fetch(`/admin/loans/${loanId}/status?status=REJECTED`, {
                     method: 'PUT',
                 });
                 const updatedLoan = await response.json();
