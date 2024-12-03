@@ -31,4 +31,11 @@ public class UserService {
         return userRepository.findByUsername(username);
                
     }
+    public User getUserDetails(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow();
+    }
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

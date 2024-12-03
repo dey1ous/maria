@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.maria.entity.Loan;
 import com.example.maria.entity.PersonalInformation;
+import com.example.maria.entity.User;
 import com.example.maria.repository.PersonalInformationRepository;
 import com.example.maria.service.LoanService;
+import com.example.maria.service.UserService;
 
 @RestController
 @RequestMapping("/user")
@@ -25,7 +27,9 @@ public class UserController {
     private LoanService loanService;
     @Autowired
     private PersonalInformationRepository personalInformationRepository;
-    // Endpoint to submit a loan application
+    @Autowired
+    private UserService userService;
+    
     @PostMapping("/loan")
     public ResponseEntity<String> applyForLoan(@RequestBody Loan loan) {
         try {
@@ -51,4 +55,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    @GetMapping("/{username}/user")
+    public ResponseEntity<User> getUserInfoByUsername(@PathVariable String username) {
+        User user = userService.getUserByUsername(username);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();  // 404 Not Found if user is not found
+        }
+    }
+
 }

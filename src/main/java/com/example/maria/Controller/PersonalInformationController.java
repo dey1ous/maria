@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -111,10 +112,11 @@ public class PersonalInformationController {
     }
 
     @GetMapping("/user/{userId}/about")
-    public PersonalInformation getUserPersonalInfo(@PathVariable Long userId) {
-        User user = userService.findById(userId);  // Assuming you have a service to find the user
-        return service.findByUser(user);  // Get personal info based on user
+    public ResponseEntity<User> getUserDetails(@PathVariable Long userId) {
+    User user = userService.getUserDetails(userId);
+        return ResponseEntity.ok(user);
     }
+
     @PostMapping("/delete-user/{id}")
 public String deleteUser(@PathVariable Long id, Model model) {
     try {
