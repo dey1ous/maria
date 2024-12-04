@@ -36,16 +36,16 @@
     </div>
 
     <script>
-        // Fetch all loan applications for the admin
+
         async function fetchAllLoans() {
             try {
                 const response = await fetch('/admin/loans');
                 const loans = await response.json();
                 
                 if (loans.length > 0) {
-                    // Populate the loan list table
+
                     const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
-                    tableBody.innerHTML = ""; // Clear any existing rows
+                    tableBody.innerHTML = ""; 
 
                     loans.forEach(loan => {
     const row = document.createElement("tr");
@@ -80,14 +80,13 @@
                 });
                 const updatedLoan = await response.json();
                 alert(`Loan ${loanId} has been approved!`);
-                fetchAllLoans(); // Refresh the loan list
+                fetchAllLoans(); 
             } catch (error) {
                 console.error("Error approving loan:", error);
                 alert("Failed to approve the loan.");
             }
         }
 
-        // Reject loan
         async function rejectLoan(loanId) {
             try {
                 const response = await fetch(`/admin/loans/${loanId}/status?status=REJECTED`, {
@@ -95,14 +94,13 @@
                 });
                 const updatedLoan = await response.json();
                 alert(`Loan ${loanId} has been rejected!`);
-                fetchAllLoans(); // Refresh the loan list
+                fetchAllLoans();
             } catch (error) {
                 console.error("Error rejecting loan:", error);
                 alert("Failed to reject the loan.");
             }
         }
 
-        // Load the loan list on page load
         window.onload = fetchAllLoans;
 
     </script>

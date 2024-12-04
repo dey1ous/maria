@@ -29,8 +29,8 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Adjust to 100% of the parent container's width */
-    max-width: 900px; /* Limit max width */
+    width: 100%;
+    max-width: 900px;
     margin-top: 20px;
     margin-bottom: 20px;
     max-height: 50vh;

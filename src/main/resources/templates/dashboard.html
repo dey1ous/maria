@@ -27,16 +27,13 @@
         <button onclick="changeHash('loan')">Loaning System</button>
     </div>
 
-    <!-- Content Area -->
     <div id="content" class="form-content">
-        <!-- Content will be loaded here -->
     </div>
 </div>
 <footer>
     <a href="#" id="contact-link" onclick="openContactModal()">Contact Us</a>
 </footer>
 
-<!-- Contact Modal -->
 <div id="contactModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeContactModal()">&times;</span>
@@ -61,12 +58,10 @@
 
 <script src="/js/script.js"></script>
 <script>
-    // Load content dynamically based on hash and its specific script
     function loadContent(page) {
-        const file = `/html/${page}.html`; // Path to the HTML file
-        const scriptFile = `/js/${page}.js`; // Path to the JS file
+        const file = `/html/${page}.html`; 
+        const scriptFile = `/js/${page}.js`;
 
-        // Fetch the HTML content dynamically
         fetch(file)
             .then(response => {
                 if (!response.ok) {
@@ -75,25 +70,20 @@
                 return response.text();
             })
             .then(html => {
-                // Update the content area with the fetched HTML
                 document.getElementById("content").innerHTML = html;
 
-                // Dynamically load the corresponding script for the page
                 loadScript(scriptFile);
             })
             .catch(error => console.error('Error loading content:', error));
     }
 
-    // Function to load a JavaScript file dynamically
     function loadScript(scriptFile) {
-        // Check if the script is already loaded to avoid duplicates
         const existingScript = document.querySelector(`script[src="${scriptFile}"]`);
         if (existingScript) {
             console.log(`Script already loaded: ${scriptFile}`);
             return;
         }
 
-        // Create a new script element and append it to the document
         const script = document.createElement('script');
         script.src = scriptFile;
         script.type = 'text/javascript';
@@ -102,52 +92,43 @@
         document.body.appendChild(script);
     }
 
-    // Change hash and load corresponding content
     function changeHash(page) {
-        window.location.hash = page; // Set the hash
-        loadContent(page); // Load the corresponding content
+        window.location.hash = page;
+        loadContent(page);
     }
 
-    // Handle page load and hash changes
     function handleHashChange() {
         const page = window.location.hash.replace('#', '') || 'home'; // Default to 'home' if no hash
-        loadContent(page); // Load content based on the hash
+        loadContent(page); 
     }
 
-    // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
 
-    // Initial load on page load
     window.onload = function() {
         if (window.location.hash === '') {
-            window.location.hash = 'home'; // Default to 'home' if no hash is present
+            window.location.hash = 'home'; 
         }
-        handleHashChange(); // Load content when the page is first loaded
+        handleHashChange(); 
     };
 
-    // Open sidebar
     function openNav() {
         document.getElementById("sidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
     }
 
-    // Close sidebar
     function closeNav() {
         document.getElementById("sidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
 
-    // Open Contact Modal
     function openContactModal() {
         document.getElementById('contactModal').style.display = 'block';
     }
 
-    // Close the Contact Modal
     function closeContactModal() {
         document.getElementById('contactModal').style.display = 'none';
     }
 
-    // Close modal when clicking outside the modal content
     window.onclick = function(event) {
         const modal = document.getElementById('contactModal');
         if (event.target === modal) {

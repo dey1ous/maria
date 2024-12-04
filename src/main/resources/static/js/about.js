@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    function fetchUserData(userId) {
-        fetch(`/user/${userId}/about`)  // Fixed URL
-            .then(response => response.json())
+    function fetchUserData(id) {
+        fetch(`/user/${id}/about`) // Use `id` in the URL
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                console.log(data);  // Log data for debugging
-                document.getElementById("userId").innerText = userId;
+                console.log(data); // Log data for debugging
+                document.getElementById("userId").innerText = id;
                 document.getElementById("fullName").innerText = data.fullName || 'N/A';
                 document.getElementById("dob").innerText = data.dateOfBirth || 'N/A';
                 document.getElementById("gender").innerText = data.gender || 'N/A';
@@ -13,9 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("phone").innerText = data.phone || 'N/A';
                 document.getElementById("address").innerText = data.address || 'N/A';
             })
-            .catch(error => console.error("Error fetching user data:", error));
+            .catch(error => {
+                console.error("Error fetching user data:", error);
+                alert("Failed to load user data. Please try again later.");
+            });
     }
 
-    const userId = 1; // Replace with actual logic to get userId
-    fetchUserData(userId);
+    const id = 14; // Replace with the actual id you want to use
+    fetchUserData(id);
 });

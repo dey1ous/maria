@@ -1,8 +1,8 @@
 #adminLoanTableContainer {
-    max-height: 400px; /* Adjust this value to control the scrollable area */
-    overflow-y: auto; /* Enables vertical scrolling when content overflows */
+    max-height: 400px; 
+    overflow-y: auto; 
     margin-top: 20px;
-    border: 1px solid #ddd; /* Optional: Adds a border around the container */
+    border: 1px solid #ddd; 
 }
 
 #adminLoanTable {

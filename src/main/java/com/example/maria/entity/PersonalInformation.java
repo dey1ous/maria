@@ -16,7 +16,7 @@ public class PersonalInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
@@ -30,7 +30,7 @@ public class PersonalInformation {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;  // This links to the User entity
+    private User user; 
 
     // Getters and Setters
     public Long getId() {

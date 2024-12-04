@@ -45,16 +45,16 @@ public class UserController {
         List<Loan> loans = loanService.getLoanHistory(userId);
         return loans.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(loans);
     }
-     @GetMapping("/{userId}/about")
-    public ResponseEntity<PersonalInformation> getUserInfo(@PathVariable Long userId) {
-        Optional<PersonalInformation> personalInfo = personalInformationRepository.findByUserId(userId);
-        
-        if (personalInfo.isPresent()) {
-            return ResponseEntity.ok(personalInfo.get());
+    @GetMapping("/{id}/about")
+    public ResponseEntity<PersonalInformation> getUserAbout(@PathVariable("id") Long id) {
+        Optional<PersonalInformation> userInfo = personalInformationRepository.findById(id);
+        if (userInfo.isPresent()) {
+            return ResponseEntity.ok(userInfo.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
     @GetMapping("/{username}/user")
     public ResponseEntity<User> getUserInfoByUsername(@PathVariable String username) {
         User user = userService.getUserByUsername(username);
@@ -62,7 +62,7 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.notFound().build();  // 404 Not Found if user is not found
+            return ResponseEntity.notFound().build();
         }
     }
 
