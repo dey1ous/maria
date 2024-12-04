@@ -26,12 +26,14 @@ function showAdminLoans() {
     fetchAllLoans(); // Fetch loans for the admin
 }
 
-// Fetch all loans for the admin
+// Fetch all loans and populate the table
+// Fetch all loans and populate the table
 async function fetchAllLoans() {
     try {
-        const response = await fetch('/admin/loans'); // API for admin to fetch all loans
-        const loans = await response.json();
+        const response = await fetch('/admin/loans');
+        if (!response.ok) throw new Error('Network response was not ok');
 
+        const loans = await response.json();
         const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
         tableBody.innerHTML = ""; // Clear existing rows
 
@@ -39,11 +41,10 @@ async function fetchAllLoans() {
             loans.forEach(loan => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${loan.userId}</td>
-                    <td>${loan.id}</td>
-                    <td>${loan.amount.toFixed(2)}</td>
-                    <td>${loan.status}</td>
-                    <td>${loan.applicationDate}</td>
+                    <td>${loan.id}</td>  <!-- Loan ID -->
+                    <td>${loan.amount.toFixed(2)}</td>  <!-- Amount -->
+                    <td>${loan.status}</td>  <!-- Status -->
+                    <td>${new Date(loan.applicationDate).toLocaleString()}</td>  <!-- Application Date -->
                     <td>
                         <button onclick="approveLoan(${loan.id})">Approve</button>
                         <button onclick="rejectLoan(${loan.id})">Reject</button>
@@ -53,89 +54,80 @@ async function fetchAllLoans() {
             });
         } else {
             const row = document.createElement("tr");
-            row.innerHTML = "<td colspan='6'>No loan applications found</td>";
+            row.innerHTML = "<td colspan='5'>No loan applications found</td>"; // Adjusted colspan
             tableBody.appendChild(row);
         }
     } catch (error) {
-        console.error("Error fetching all loans:", error);
+        console.error("Error fetching loan applications:", error);
         alert("Failed to fetch loan applications.");
     }
 }
 
-// Approve loan
+// Approve a loan
 async function approveLoan(loanId) {
-    try {
-        const response = await fetch(`/admin/loan/${loanId}/approve`, {
-            method: 'POST'
-        });
-
-        if (response.ok) {
-            alert("Loan approved successfully.");
-            fetchAllLoans();  // Refresh the loan list
-        } else {
-            alert("Failed to approve the loan.");
-        }
-    } catch (error) {
-        console.error("Error approving loan:", error);
-        alert("Error approving the loan.");
-    }
+    await updateLoanStatus(loanId, 'APPROVED');
 }
 
-// Reject loan
+// Reject a loan
 async function rejectLoan(loanId) {
+    await updateLoanStatus(loanId, 'REJECTED');
+}
+
+// Update loan status
+async function updateLoanStatus(loanId, status) {
     try {
-        const response = await fetch(`/admin/loan/${loanId}/reject`, {
-            method: 'POST'
+        const response = await fetch(`/admin/loans/${loanId}/status?status=${status}`, {
+            method: 'PUT' // Use PUT if your backend expects it
         });
 
-        if (response.ok) {
-            alert("Loan rejected successfully.");
-            fetchAllLoans();  // Refresh the loan list
-        } else {
-            alert("Failed to reject the loan.");
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Error updating loan status: ${errorText}`);
+            alert(`Failed to update the loan status. Please try again.`);
+            return;
         }
+
+        alert(`Loan ${status.toLowerCase()} successfully!`);
     } catch (error) {
-        console.error("Error rejecting loan:", error);
-        alert("Error rejecting the loan.");
+        console.error(`Error in updateLoanStatus function:`, error);
+        alert(`An error occurred while trying to update the loan status.`);
     }
 }
+
+// Fetch personal information
 async function fetchPersonalInfo() {
     try {
         const response = await fetch('/api/personal-information/all');  // Ensure this API exists
+        if (!response.ok) throw new Error('Network response was not ok');
+
         const personalInfoList = await response.json();
+        const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
 
-        if (response.ok && Array.isArray(personalInfoList)) {
-            const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
-            tableBody.innerHTML = ""; // Clear existing rows
-
-            if (personalInfoList.length > 0) {
-                personalInfoList.forEach(info => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${info.id}</td>
-                        <td>${info.fullName}</td>
-                        <td>${info.dateOfBirth}</td>
-                        <td>${info.gender}</td>
-                        <td>${info.civilStatus}</td>
-                        <td>${info.email}</td>
-                        <td>${info.phone}</td>
-                        <td>${info.address}</td>
-                        <td>
-                            <form action="/admin/delete-user/${info.id}" method="post" style="display:inline;">
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            } else {
+        if (Array.isArray(personalInfoList) && personalInfoList.length > 0) {
+            personalInfoList.forEach(info => {
                 const row = document.createElement("tr");
-                row.innerHTML = "<td colspan='9'>No personal information available</td>";
+                row.innerHTML = `
+                    <td>${info.id}</td>
+                    <td>${info.fullName}</td>
+                    <td>${info.dateOfBirth}</td>
+                    <td>${info.gender}</td>
+                    <td>${info.civilStatus}</td>
+                    <td>${info.email}</td>
+                    <td>${info.phone}</td>
+                    <td>${info.address}</td>
+                    <td>
+                        <form action="/admin/delete-user/${info.id }" method="post" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                `;
                 tableBody.appendChild(row);
-            }
+            });
         } else {
-            console.error("Failed to fetch personal information or response not valid");
-            alert("Failed to fetch personal information.");
+            const row = document.createElement("tr");
+            row.innerHTML = "<td colspan='9'>No personal information available</td>";
+            tableBody.appendChild(row);
         }
     } catch (error) {
         console.error("Error fetching personal information:", error);

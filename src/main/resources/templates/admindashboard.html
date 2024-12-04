@@ -10,17 +10,14 @@
 
 <div id="sidebar" class="sidebar">
     <button class="closebtn" onclick="closeNav()">Close</button>
-    <a href="#list">List of User</a>
+    <a href="#list">List of Users</a>
     <a href="#Loans">Loan</a>
-
     <a href="/logout">Logout</a>
 </div>
-
 
 <div id="main">
     <button class="openbtn" onclick="openNav()">&#9776;</button>
 </div>
-
 
 <div id="content" class="form-content">
     <div id="adminLoanSection" style="display: none;">
@@ -28,7 +25,6 @@
         <table id="adminLoanTable" class="table">
             <thead>
                 <tr>
-                    <th>User ID</th>
                     <th>Loan ID</th>
                     <th>Amount</th>
                     <th>Status</th>
@@ -37,32 +33,32 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Loan records will be dynamically inserted here -->
             </tbody>
         </table>
     </div>
-</div>
 
-<div id="personalInfoSection" style="display: none;">
-    <h2>List of Users Personal Information</h2>
-    <table id="personalInfoTable" class="table">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Full Name</th>
-                <th>Date of Birth</th>
-                <th>Gender</th>
-                <th>Civil Status</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Personal information will be dynamically loaded here -->
-        </tbody>
-    </table>
-</div>
+    <div id="personalInfoSection" style="display: none;">
+        <h2>List of Users Personal Information</h2>
+        <table id="personalInfoTable" class="table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Full Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Civil Status</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Personal information will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="/js/adminscript.js"></script>
@@ -81,60 +77,61 @@
 
     // Function to load content dynamically
     function loadContent(file) {
-    fetch(file)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("content").innerHTML = html;
+        fetch(file)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("content").innerHTML = html;
 
-            // Initialize functionalities based on the loaded file
-            if (file.includes("adminloan.html")) {
-                fetchAllLoans();
-            } else if (file.includes("list.html")) {
-                // Fetch and display personal information for the list page
-                fetchPersonalInfo();
-            }
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
-
-async function fetchPersonalInfo() {
-    try {
-        const response = await fetch('/api/personal-information/all');  // API for admin to fetch personal info
-        const personalInfoList = await response.json();
-
-        const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
-        tableBody.innerHTML = ""; // Clear existing rows
-
-        if (personalInfoList.length > 0) {
-            personalInfoList.forEach(info => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${info.id}</td>
-                    <td>${info.fullName}</td>
-                    <td>${info.dateOfBirth}</td>
-                    <td>${info.gender}</td>
-                    <td>${info.civilStatus}</td>
-                    <td>${info.email}</td>
-                    <td>${info.phone}</td>
-                    <td>${info.address}</td>
-                    <td>
-                        <form th:action="@{/admin/delete-user/{id}(id=${info.id})}" method="post" style="display:inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        } else {
-            const row = document.createElement("tr");
-            row.innerHTML = "<td colspan='9'>No personal information available</td>";
-            tableBody.appendChild(row);
-        }
-    } catch (error) {
-        console.error("Error fetching personal information:", error);
-        alert("Failed to fetch personal information.");
+                // Initialize functionalities based on the loaded file
+                if (file.includes("adminloan.html")) {
+                    fetchAllLoans();
+                } else if (file.includes("list.html")) {
+                    fetchPersonalInfo();
+                }
+            })
+            .catch(error => console.error('Error loading content:', error));
     }
-}
+
+    // Fetch personal information
+    async function fetchPersonalInfo() {
+        try {
+            const response = await fetch('/api/personal-information/all');  // API for admin to fetch personal info
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const personalInfoList = await response.json();
+            const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
+            tableBody.innerHTML = ""; // Clear existing rows
+
+            if (personalInfoList.length > 0) {
+                personalInfoList.forEach(info => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${info.id}</td>
+                        <td>${info.fullName}</td>
+                        <td>${info.dateOfBirth}</td>
+                        <td>${info.gender}</td>
+                        <td>${info.civilStatus}</td>
+                        <td>${info.email}</td>
+                        <td>${info.phone}</td>
+                        <td>${info.address}</td>
+                        <td>
+                            <form action="/admin/delete-user/${info.id}" method="post" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement("tr");
+                row.innerHTML = "<td colspan='9'> No personal information available</td>";
+                tableBody.appendChild(row);
+            }
+        } catch (error) {
+            console.error("Error fetching personal information:", error);
+            alert("Failed to fetch personal information.");
+        }
+    }
 
     // Handle hash-based navigation
     function handleHashNavigation() {
@@ -162,8 +159,9 @@ async function fetchPersonalInfo() {
     async function fetchAllLoans() {
         try {
             const response = await fetch('/admin/loans'); // API for admin to fetch all loans
-            const loans = await response.json();
+            if (!response.ok) throw new Error('Network response was not ok');
 
+            const loans = await response.json();
             const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
             tableBody.innerHTML = ""; // Clear existing rows
 
@@ -171,11 +169,10 @@ async function fetchPersonalInfo() {
                 loans.forEach(loan => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
-                        <td>${loan.userId}</td>
                         <td>${loan.id}</td>
                         <td>${loan.amount.toFixed(2)}</td>
                         <td>${loan.status}</td>
-                        <td>${loan.applicationDate}</td>
+                        <td>${new Date(loan.applicationDate).toLocaleString()}</td>
                         <td>
                             <button onclick="approveLoan(${loan.id})">Approve</button>
                             <button onclick="rejectLoan(${loan.id})">Reject</button>
@@ -185,7 +182,7 @@ async function fetchPersonalInfo() {
                 });
             } else {
                 const row = document.createElement("tr");
-                row.innerHTML = "<td colspan='6'>No loan applications found</td>";
+                row.innerHTML = "<td colspan='5'>No loan applications found</td>";
                 tableBody.appendChild(row);
             }
         } catch (error) {

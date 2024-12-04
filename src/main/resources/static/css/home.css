@@ -1,14 +1,4 @@
 
-.container {
-    background-color: #fff;
-    width: 1000px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 0 auto;
-    position: fixed;
-    z-index: 1;
-}
 
 .header {
     text-align: center;
@@ -40,20 +30,6 @@
     margin: 10px 0;
 }
 
-.logout-button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: white;
-    background-color: #003b73;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.logout-button:hover {
-    background-color: #10518d;
-}
 
 .news {
     list-style-type: none;

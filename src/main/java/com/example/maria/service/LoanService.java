@@ -4,16 +4,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.maria.entity.Loan;
+import com.example.maria.entity.Notification;
 import com.example.maria.repository.LoanRepository;
+import com.example.maria.repository.NotificationRepository;
+
 
 @Service
 public class LoanService {
 
     @Autowired
     private LoanRepository loanRepository;
-
+    @Autowired
+    private NotificationRepository notificationRepository;
     // Apply for a loan
     public Loan applyLoan(Loan loan) {
         loan.setStatus("PENDING");
@@ -30,11 +35,25 @@ public class LoanService {
         return loanRepository.findByUserId(userId);
     }
 
-    // Approve or reject a loan
+    @Transactional
     public Loan approveOrRejectLoan(Long loanId, String status) {
-        Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new IllegalArgumentException("Loan not found"));
+        if (!status.equalsIgnoreCase("APPROVED") && !status.equalsIgnoreCase("REJECTED")) {
+            throw new IllegalArgumentException("Invalid status: " + status);
+        }
+
+        Loan loan = loanRepository.findById(loanId)
+                .orElseThrow(() -> new IllegalArgumentException("Loan not found with ID: " + loanId));
+        
         loan.setStatus(status);
-        return loanRepository.save(loan);
+        loanRepository.save(loan);
+
+        // Create and save notification
+        Notification notification = new Notification();
+        notification.setUserId(loan.getUserId());
+        notification.setMessage("Your loan application has been " + status.toLowerCase() + ".");
+        notificationRepository.save(notification);
+
+        return loan;
     }
     
 }

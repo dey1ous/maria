@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.maria.entity.Loan;
@@ -30,6 +31,18 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    @GetMapping("/current-user")
+public ResponseEntity<User> getCurrentUser(@RequestParam String username) {
+    // Retrieve user data based on the username parameter
+    User user = userService.getUserByUsername(username); // Assuming you have a method for fetching user data
+    
+    if (user != null) {
+        return ResponseEntity.ok(user);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
+
     @PostMapping("/loan")
     public ResponseEntity<String> applyForLoan(@RequestBody Loan loan) {
         try {
@@ -40,7 +53,7 @@ public class UserController {
         }
     }
     // Endpoint to get a user's transaction history
-    @GetMapping("/loans/{userId}")
+    @GetMapping("/loans/{Id}")
     public ResponseEntity<List<Loan>> getLoanHistory(@PathVariable Long userId) {
         List<Loan> loans = loanService.getLoanHistory(userId);
         return loans.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(loans);
@@ -65,5 +78,5 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
 }

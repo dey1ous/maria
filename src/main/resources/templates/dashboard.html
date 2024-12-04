@@ -15,6 +15,7 @@
     <a href="#notification" onclick="changeHash('notification')">Notifications</a>
     <a href="#loan" onclick="changeHash('loan')">Services</a>
     <a href="#register" onclick="changeHash('register')">Profile</a>
+    <a href="#logout" class="logout-button" onclick="confirmLogout(event)">Logout</a>
 </div>
 
 <div id="main">
@@ -22,10 +23,6 @@
 </div>
 
 <div class="container">
-    <div class="tab">
-        <button onclick="changeHash('account')">Account</button>
-        <button onclick="changeHash('loan')">Loaning System</button>
-    </div>
 
     <div id="content" class="form-content">
     </div>
@@ -58,6 +55,13 @@
 
 <script src="/js/script.js"></script>
 <script>
+    function confirmLogout(event) {
+        event.preventDefault(); 
+        const confirmation = confirm("Are you sure you want to log out?");
+        if (confirmation) {
+            window.location.href = '/logout';
+        }
+    }
     function loadContent(page) {
         const file = `/html/${page}.html`; 
         const scriptFile = `/js/${page}.js`;

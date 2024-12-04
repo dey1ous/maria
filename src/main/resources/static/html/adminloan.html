@@ -20,7 +20,6 @@
                     <thead>
                         <tr>
                             <th>Loan ID</th>
-                            <th>User ID</th>
                             <th>Amount</th>
                             <th>Status</th>
                             <th>Application Date</th>
@@ -35,75 +34,7 @@
         </section>
     </div>
 
-    <script>
-
-        async function fetchAllLoans() {
-            try {
-                const response = await fetch('/admin/loans');
-                const loans = await response.json();
-                
-                if (loans.length > 0) {
-
-                    const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
-                    tableBody.innerHTML = ""; 
-
-                    loans.forEach(loan => {
-    const row = document.createElement("tr");
-    row.innerHTML = ` 
-        <td>${loan.id}</td>  <!-- Loan ID -->
-        <td>${loan.userId}</td>  <!-- User ID -->
-        <td>${loan.amount.toFixed(2)}</td>
-        <td>${loan.status}</td>
-        <td>${loan.applicationDate}</td>
-        <td>
-            <button onclick="approveLoan(${loan.id})">Approve</button>
-            <button onclick="rejectLoan(${loan.id})">Reject</button>
-        </td>
-    `;
-    tableBody.appendChild(row);
-});
-                } else {
-                    const row = document.createElement("tr");
-                    row.innerHTML = "<td colspan='6'>No loan applications found</td>";
-                    document.getElementById("adminLoanTable").querySelector("tbody").appendChild(row);
-                }
-            } catch (error) {
-                console.error("Error fetching loan applications:", error);
-                alert("Failed to fetch loan applications.");
-            }
-        }
-
-        async function approveLoan(loanId) {
-            try {
-                const response = await fetch(`/admin/loans/${loanId}/status?status=APPROVED`, {
-                    method: 'PUT',
-                });
-                const updatedLoan = await response.json();
-                alert(`Loan ${loanId} has been approved!`);
-                fetchAllLoans(); 
-            } catch (error) {
-                console.error("Error approving loan:", error);
-                alert("Failed to approve the loan.");
-            }
-        }
-
-        async function rejectLoan(loanId) {
-            try {
-                const response = await fetch(`/admin/loans/${loanId}/status?status=REJECTED`, {
-                    method: 'PUT',
-                });
-                const updatedLoan = await response.json();
-                alert(`Loan ${loanId} has been rejected!`);
-                fetchAllLoans();
-            } catch (error) {
-                console.error("Error rejecting loan:", error);
-                alert("Failed to reject the loan.");
-            }
-        }
-
-        window.onload = fetchAllLoans;
-
-    </script>
-
+    <script src="/js/adminscript.js"></script> <!-- Ensure this script is included -->
+    
 </body>
 </html>

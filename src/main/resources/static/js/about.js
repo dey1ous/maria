@@ -1,5 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Function to dynamically get the user ID
+    function getUserId() {
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get('id'); 
+        return userId;
+    }
+
+    // Fetch user data using the dynamic user ID
     function fetchUserData(id) {
+        if (!id) {
+            console.error("User ID is not available.");
+            return;
+        }
+
         fetch(`/user/${id}/about`) // Use `id` in the URL
             .then(response => {
                 if (!response.ok) {
@@ -24,6 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    const id = 14; // Replace with the actual id you want to use
-    fetchUserData(id);
+    // Get the user ID dynamically (using one of the methods defined in getUserId)
+    const userId = getUserId(); 
+
+    // Fetch user data with the retrieved user ID
+    fetchUserData(userId);
 });

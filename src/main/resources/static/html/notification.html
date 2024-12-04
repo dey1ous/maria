@@ -28,17 +28,29 @@
         #notificationList li {
             padding: 10px;
             border-bottom: 1px solid #ddd;
+            position: relative;
         }
         #notificationList li:last-child {
             border-bottom: none;
         }
+        .close-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #999;
+        }
+        .close-btn:hover {
+            color: #f00;
+        }
     </style>
 </head>
 <body>
-        <h1>Notifications</h1>
-        <ul id="notificationList">
-            <li>Your loan application has been approved.</li>
-            <li>New updates are available in your account.</li>
-        </ul>
+    <h1>Notifications</h1>
+    <ul id="notificationList">
+        <!-- Notifications will be populated here -->
+    </ul>
+
+    
 </body>
 </html>
