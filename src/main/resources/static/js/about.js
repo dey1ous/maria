@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return userId;
     }
 
+    // Validate user ID
+    const userId = getUserId();
+    if (!userId) {
+        alert("User ID is missing in the URL.");
+        window.location.href = '/error'; // Redirect or show error message
+        return;
+    }
+
     // Fetch user data using the dynamic user ID
     function fetchUserData(id) {
         if (!id) {
@@ -13,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        document.getElementById("loadingMessage").style.display = 'block'; // Show loading message
         fetch(`/user/${id}/about`) // Use `id` in the URL
             .then(response => {
                 if (!response.ok) {
@@ -33,12 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("Error fetching user data:", error);
-                alert("Failed to load user data. Please try again later.");
+                document.getElementById("userInfo").innerHTML = "<p>Failed to load user data. Please try again later.</p>";
+            })
+            .finally(() => {
+                document.getElementById("loadingMessage").style.display = 'none'; // Hide loading message
             });
     }
-
-    // Get the user ID dynamically (using one of the methods defined in getUserId)
-    const userId = getUserId(); 
 
     // Fetch user data with the retrieved user ID
     fetchUserData(userId);

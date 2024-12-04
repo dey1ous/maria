@@ -68,9 +68,15 @@
         <form action="/api/personal-information/confirm" method="post">
             <button type="submit">Confirm</button>
         </form>
-        <form action="/api/personal-information/edit" method="get">
-            <button type="submit">Edit</button>
-        </form>
+
+        <!-- Back Button -->
+        <button type="button" onclick="goBack()">Go Back</button>
     </div>
+
+    <script>
+        function goBack() {
+            window.history.back();  // Go back to the last page in the browser's history
+        }
+    </script>
 </body>
 </html>

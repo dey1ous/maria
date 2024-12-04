@@ -12,7 +12,7 @@
     <button class="closebtn" onclick="closeNav()">Close</button>
     <a href="#list">List of Users</a>
     <a href="#Loans">Loan</a>
-    <a href="/logout">Logout</a>
+    <a href="javascript:void(0);" onclick="confirmLogout()">Logout</a>
 </div>
 
 <div id="main">
@@ -226,6 +226,14 @@
         } catch (error) {
             console.error("Error rejecting loan:", error);
             alert("Error rejecting the loan.");
+        }
+    }
+
+    // Confirm logout function
+    function confirmLogout() {
+        const confirmation = confirm("Are you sure you want to log out?");
+        if (confirmation) {
+            window.location.href = "/logout";  // Redirect to logout page
         }
     }
 </script>
