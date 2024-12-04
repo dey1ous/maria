@@ -26,8 +26,6 @@ function showAdminLoans() {
     fetchAllLoans(); // Fetch loans for the admin
 }
 
-// Fetch all loans and populate the table
-// Fetch all loans and populate the table
 async function fetchAllLoans() {
     try {
         const response = await fetch('/admin/loans');
@@ -110,14 +108,14 @@ async function fetchPersonalInfo() {
                 row.innerHTML = `
                     <td>${info.id}</td>
                     <td>${info.fullName}</td>
-                    <td>${info.dateOfBirth}</td>
+                    <td>${new Date(info.dateOfBirth).toLocaleDateString()}</td> <!-- Formatting Date of Birth -->
                     <td>${info.gender}</td>
                     <td>${info.civilStatus}</td>
                     <td>${info.email}</td>
                     <td>${info.phone}</td>
                     <td>${info.address}</td>
                     <td>
-                        <form action="/admin/delete-user/${info.id }" method="post" style="display:inline;">
+                        <form action="/admin/delete-user/${info.id}" method="post" style="display:inline;">
                             <button type="submit">Delete</button>
                         </form>
                     </td>

@@ -40,26 +40,27 @@
 
     <div id="personalInfoSection" style="display: none;">
         <h2>List of Users Personal Information</h2>
-        <table id="personalInfoTable" class="table">
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Full Name</th>
-                    <th>Date of Birth</th>
-                    <th>Gender</th>
-                    <th>Civil Status</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Personal information will be dynamically loaded here -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table id="personalInfoTable" class="table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Full Name</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Civil Status</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Personal information will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 <script src="/js/adminscript.js"></script>
 <script>
@@ -94,45 +95,43 @@
 
     // Fetch personal information
     async function fetchPersonalInfo() {
-        try {
-            const response = await fetch('/api/personal-information/all');  // API for admin to fetch personal info
-            if (!response.ok) throw new Error('Network response was not ok');
+    try {
+        const response = await fetch('/api/personal-information/all');  // Ensure this API exists
+        if (!response.ok) throw new Error('Network response was not ok');
 
-            const personalInfoList = await response.json();
-            const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
-            tableBody.innerHTML = ""; // Clear existing rows
+        const personalInfoList = await response.json();
+        const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
 
-            if (personalInfoList.length > 0) {
-                personalInfoList.forEach(info => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${info.id}</td>
-                        <td>${info.fullName}</td>
-                        <td>${info.dateOfBirth}</td>
-                        <td>${info.gender}</td>
-                        <td>${info.civilStatus}</td>
-                        <td>${info.email}</td>
-                        <td>${info.phone}</td>
-                        <td>${info.address}</td>
-                        <td>
-                            <form action="/admin/delete-user/${info.id}" method="post" style="display:inline;">
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            } else {
+        if (Array.isArray(personalInfoList) && personalInfoList.length > 0) {
+            personalInfoList.forEach(info => {
                 const row = document.createElement("tr");
-                row.innerHTML = "<td colspan='9'> No personal information available</td>";
+                row.innerHTML = 
+                    `<td>${info.id}</td>
+                    <td>${info.fullName}</td>
+                    <td>${new Date(info.dateOfBirth).toLocaleDateString()}</td>
+                    <td>${info.gender}</td>
+                    <td>${info.civilStatus}</td>
+                    <td>${info.email}</td>
+                    <td>${info.phone}</td>
+                    <td>${info.address}</td>
+                    <td>
+                        <form action="/admin/delete-user/${info.id}" method="post" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>`;
                 tableBody.appendChild(row);
-            }
-        } catch (error) {
-            console.error("Error fetching personal information:", error);
-            alert("Failed to fetch personal information.");
+            });
+        } else {
+            const row = document.createElement("tr");
+            row.innerHTML = "<td colspan='9'>No personal information available</td>";
+            tableBody.appendChild(row);
         }
+    } catch (error) {
+        console.error("Error fetching personal information:", error);
+        alert("Failed to fetch personal information.");
     }
-
+}
     // Handle hash-based navigation
     function handleHashNavigation() {
         const hash = window.location.hash;

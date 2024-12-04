@@ -6,7 +6,7 @@
             const formData = new FormData(this);  // Collect form data
 
             // Submit form data using Fetch API
-            fetch("/api/personal-information/review", {
+            fetch("/personal-information/review", {
                 method: "POST",
                 body: formData
             })

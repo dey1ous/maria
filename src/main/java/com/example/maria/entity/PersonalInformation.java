@@ -2,6 +2,8 @@ package com.example.maria.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,9 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 
 @Entity
+@Table(name = "personal_information")
 public class PersonalInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +29,19 @@ public class PersonalInformation {
     private String phone;
     private String address;
 
+    @JsonIgnore
     @Lob
     private byte[] validId;  // For storing the uploaded file
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user; 
+    @JoinColumn(name = "user_id")  // Assuming this is the column in the database
+    private User user;
 
     // Getters and Setters
     public Long getId() {
         return id;
     }
+
 
     public void setId(Long id) {
         this.id = id;

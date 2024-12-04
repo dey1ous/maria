@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -7,7 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #003b73;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .header {
@@ -45,6 +44,16 @@ input {
     border-radius: 5px;
 }
 
+/* Table container for scrollable content */
+.table-container {
+    max-height: 300px; /* Adjust height as needed */
+    overflow-y: auto;
+    border: 1px solid #ddd; /* Optional border around the table */
+    border-radius: 5px; /* Optional rounded corners */
+    background-color: #fff; /* Optional background */
+}
+
+/* Table styles */
 table {
     width: 100%;
     border-collapse: collapse;
