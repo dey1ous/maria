@@ -1,6 +1,5 @@
 package com.example.maria.Controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +51,8 @@ public ResponseEntity<User> getCurrentUser(@RequestParam String username) {
             return ResponseEntity.status(500).body("Error submitting loan.");
         }
     }
-    // Endpoint to get a user's transaction history
-    @GetMapping("/loans/{Id}")
-    public ResponseEntity<List<Loan>> getLoanHistory(@PathVariable Long userId) {
-        List<Loan> loans = loanService.getLoanHistory(userId);
-        return loans.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(loans);
-    }
+    
+    
     @GetMapping("/{id}/about")
     public ResponseEntity<PersonalInformation> getUserAbout(@PathVariable("id") Long id) {
         Optional<PersonalInformation> userInfo = personalInformationRepository.findById(id);

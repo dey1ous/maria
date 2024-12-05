@@ -16,9 +16,12 @@ import com.example.maria.repository.NotificationRepository;
 public class LoanService {
 
     @Autowired
-    private LoanRepository loanRepository;
+    private final LoanRepository loanRepository;
     @Autowired
     private NotificationRepository notificationRepository;
+    public LoanService(LoanRepository loanRepository) {
+        this.loanRepository = loanRepository;
+    }
     // Apply for a loan
     public Loan applyLoan(Loan loan) {
         loan.setStatus("PENDING");
@@ -31,10 +34,10 @@ public class LoanService {
     }
 
     // Get loans by user ID (transaction history)
-    public List<Loan> getLoanHistory(Long userId) {
-        return loanRepository.findByUserId(userId);
+    public List<Loan> findLoansByName(String name) {
+        // Fetch loans by name from the loan database
+        return loanRepository.findByName(name);
     }
-
     @Transactional
     public Loan approveOrRejectLoan(Long loanId, String status) {
         if (!status.equalsIgnoreCase("APPROVED") && !status.equalsIgnoreCase("REJECTED")) {

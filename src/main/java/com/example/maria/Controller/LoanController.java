@@ -23,7 +23,10 @@ import com.example.maria.service.LoanService;
 public class LoanController {
 
     @Autowired
-    private LoanService loanService;
+    private final LoanService loanService;
+    public LoanController(LoanService loanService) {
+        this.loanService = loanService;
+    }
 
 
     // Apply for a loan
@@ -32,9 +35,10 @@ public class LoanController {
 public ResponseEntity<?> applyLoan(@RequestBody Map<String, Object> request) {
     try {
         double amount = Double.parseDouble(request.get("amount").toString());
-
+        String name = (String) request.get("name");
         // Create and save a new loan
         Loan loan = new Loan();
+        loan.setName(name);
         loan.setAmount(amount);
         loan.setApplicationDate(LocalDateTime.now());
         loan.setStatus("PENDING");
@@ -65,9 +69,11 @@ public ResponseEntity<?> applyLoan(@RequestBody Map<String, Object> request) {
         return loanService.approveOrRejectLoan(loanId, "REJECTED");
     }
 
-    // Get transaction history for a specific user
-    @GetMapping("/user/{userId}")
-    public List<Loan> getTransactionHistoryByUserId(@PathVariable Long userId) {
-        return loanService.getLoanHistory(userId);
+
+    @GetMapping("/by-name/{name}")
+    public ResponseEntity<List<Loan>> getLoanHistory(@PathVariable String name) {
+        List<Loan> loans = loanService.findLoansByName(name);
+        return loans.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(loans);
     }
+
 }

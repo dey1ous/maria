@@ -38,4 +38,8 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+    public Long findUserIdByFullName(String fullname) {
+        User user = userRepository.findByFullName(fullname); // Assuming you have a method in your repository
+        return user != null ? user.getId() : null;
+    }
 }

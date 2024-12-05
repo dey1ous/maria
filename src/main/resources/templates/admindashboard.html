@@ -25,6 +25,7 @@
         <table id="adminLoanTable" class="table">
             <thead>
                 <tr>
+                    <th>Name</th>
                     <th>Loan ID</th>
                     <th>Amount</th>
                     <th>Status</th>
@@ -169,6 +170,7 @@
                     const row = document.createElement("tr");
                     row.innerHTML = `
                         <td>${loan.id}</td>
+                        <td>${loan.name}</td>
                         <td>${loan.amount.toFixed(2)}</td>
                         <td>${loan.status}</td>
                         <td>${new Date(loan.applicationDate).toLocaleString()}</td>

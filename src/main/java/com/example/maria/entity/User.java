@@ -20,7 +20,7 @@ public class User {
     private String email;
     private String role; // "USER" or "ADMIN"
     private String fullName; // Changed from address/contactNumber
-
+    
      @OneToOne(mappedBy = "user")
     
     // Getters and Setters

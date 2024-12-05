@@ -9,6 +9,7 @@ import com.example.maria.entity.Loan;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
-    List<Loan> findByUserId(Long userId); // Retrieve loans by User ID
+    List<Loan> findByName(String name); // Retrieve loans by User ID
     List<Loan> findByStatus(String status); // Retrieve loans by status
+    
 }

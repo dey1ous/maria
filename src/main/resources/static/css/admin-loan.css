@@ -1,8 +1,8 @@
 #adminLoanTableContainer {
     max-height: 400px; 
     overflow-y: auto; 
-    margin-top: 20px;
     border: 1px solid #ddd; 
+    border-radius: 8px;
 }
 
 #adminLoanTable {
@@ -11,7 +11,7 @@
 }
 
 #adminLoanTable th, #adminLoanTable td {
-    padding: 10px;
+    padding: 12px;
     text-align: left;
     border: 1px solid #ddd;
 }

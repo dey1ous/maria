@@ -40,6 +40,7 @@ async function fetchAllLoans() {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${loan.id}</td>  <!-- Loan ID -->
+                    <td>${loan.name}</td>
                     <td>${loan.amount.toFixed(2)}</td>  <!-- Amount -->
                     <td>${loan.status}</td>  <!-- Status -->
                     <td>${new Date(loan.applicationDate).toLocaleString()}</td>  <!-- Application Date -->

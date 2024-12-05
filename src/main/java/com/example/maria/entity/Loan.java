@@ -18,6 +18,7 @@ public class Loan {
     private Long userId; 
     private Double amount;
     private String status = "PENDING"; 
+    private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime applicationDate; 
@@ -61,5 +62,13 @@ public class Loan {
 
     public void setApplicationDate(LocalDateTime applicationDate) {
         this.applicationDate = applicationDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

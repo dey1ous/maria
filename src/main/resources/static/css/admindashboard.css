@@ -107,38 +107,37 @@ body {
     text-align: center;
 }
 
-/* Table styling */
-/* Shared table container styles */
-.table-container, .adminLoanTableContainer {
-    max-height: 500px; 
-    overflow-y: auto; 
+
+.table-container {
+    background-color: #fff;
+    width: 100%;
+    height: 65vh;  /* Reduced height */
+    max-width: 1000px;
     border-radius: 8px;
-    margin-top: 5px;
-    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;  /* Ensure content is scrollable if it overflows */
 }
 
-/* Shared table styles */
-.table, .adminLoanTable {
+
+table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 10px; 
 }
 
-.table th, .adminLoanTable th, 
-.table td, .adminLoanTable td {
+th, td {
+    padding: 4px; 
     text-align: left;
-    padding: 10px;
     border: 1px solid #ddd;
 }
 
-.table th, .adminLoanTable th {
-    position: sticky;
-    top: 0;
-    z-index: 2;
+th {
     background-color: #003b73;
     color: white;
+    align-content: center;
 }
 
-.table tr:nth-child(even), .adminLoanTable tr:nth-child(even) {
+tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
@@ -158,4 +157,14 @@ button:hover {
     color: white;
     border: 1px solid #003b73;
 }
+.header {
+    text-align: center;
+    background-color: #002855;
+    color: white;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+}
 
+.header h1 {
+    margin: 0;
+}
