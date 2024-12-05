@@ -1,5 +1,6 @@
 package com.example.maria.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,15 @@ public class LoanService {
         // Create and save notification
         Notification notification = new Notification();
         notification.setUserId(loan.getUserId());
-        notification.setMessage("Your loan application has been " + status.toLowerCase() + ".");
+        notification.setTimestamp(LocalDateTime.now());
+        String notificationMessage = String.format("Your loan application (ID: %d) of $%.2f has been %s. Application Date: %s",
+        loan.getId(),
+        loan.getAmount(),
+        status.toLowerCase(),
+        loan.getApplicationDate().toLocalDate().toString()  // Convert application date to readable format
+    );
+    notification.setMessage(notificationMessage);
+    
         notificationRepository.save(notification);
 
         return loan;

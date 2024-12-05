@@ -1,6 +1,7 @@
 package com.example.maria.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,14 +34,13 @@ public class PersonalInformationService {
         return repository.findAll();
     }
 
-    // Delete personal information by ID
-    public void deletePersonalInformation(Long id) {
-        try {
-            repository.deleteById(id); // Delete the record by ID
-        } catch (Exception e) {
-            logger.error("Error deleting personal information with ID: " + id, e);
-            throw new RuntimeException("Error deleting personal information", e);
+    public boolean deleteUserById(Long id) {
+        Optional<PersonalInformation> user = repository.findById(id);
+        if (user.isPresent()) {
+            repository.delete(user.get());  // Deletes the user based on the ID
+            return true;
         }
+        return false;  // User not found
     }
 
     // Find personal information by user

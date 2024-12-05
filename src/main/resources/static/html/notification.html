@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications</title>
     <style>
+        /* Styles for notification page */
         body, html {
             margin: 0;
             padding: 0;
@@ -24,15 +25,19 @@
         #notificationList {
             list-style-type: none;
             padding-left: 0;
+            margin-top: 20px;
         }
+
         #notificationList li {
             padding: 10px;
             border-bottom: 1px solid #ddd;
             position: relative;
         }
+
         #notificationList li:last-child {
             border-bottom: none;
         }
+
         .close-btn {
             position: absolute;
             right: 10px;
@@ -40,6 +45,7 @@
             cursor: pointer;
             color: #999;
         }
+
         .close-btn:hover {
             color: #f00;
         }
@@ -51,6 +57,63 @@
         <!-- Notifications will be populated here -->
     </ul>
 
-    
+    <script>
+        // Function to display notifications on the page
+        function displayNotifications(notifications) {
+            const notificationList = document.getElementById("notificationList");
+            notificationList.innerHTML = "";  // Clear existing notifications
+
+            if (notifications.length === 0) {
+                const noNotificationsMessage = document.createElement("li");
+                noNotificationsMessage.textContent = "No notifications available.";
+                notificationList.appendChild(noNotificationsMessage);
+                return;
+            }
+
+            notifications.forEach(notification => {
+                const li = document.createElement("li");
+
+                li.innerHTML = `
+                    <strong>${notification.message}</strong>
+                    <br />
+                    <span>Status: ${notification.status}</span>
+                    <br />
+                    <span>Loan Amount: $${notification.amount.toFixed(2)}</span>
+                    <br />
+                    <span>Application Date: ${new Date(notification.applicationDate).toLocaleDateString()}</span>
+                `;
+
+                // Add a close button to dismiss the notification
+                const closeBtn = document.createElement("span");
+                closeBtn.textContent = "×"; // Close icon
+                closeBtn.classList.add("close-btn");
+                closeBtn.onclick = () => li.remove(); // Dismiss notification on click
+                li.appendChild(closeBtn);
+
+                notificationList.appendChild(li);
+            });
+        }
+
+        // Automatically fetch notifications when the page loads
+        async function fetchNotifications() {
+            const userId = 1; // Replace with the actual userId (from session, JWT, or other methods)
+
+            try {
+                const response = await fetch(`/api/notifications/by-user/${userId}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch notifications");
+                }
+
+                const notifications = await response.json();
+                // Call function to display notifications
+                displayNotifications(notifications);
+            } catch (error) {
+                console.error("Error loading notifications:", error);
+            }
+        }
+
+        // Fetch notifications when the page loads
+        fetchNotifications();
+    </script>
 </body>
 </html>

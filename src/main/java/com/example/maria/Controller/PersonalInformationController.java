@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,16 +40,5 @@ public List<PersonalInformation> getAllPersonalInformation() {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/delete-user/{id}")
-public String deleteUser(@PathVariable Long id, Model model) {
-    try {
-        service.deletePersonalInformation(id);  // Correct method call
-        model.addAttribute("message", "User deleted successfully!");
-        return "list";  // Redirect after deletion
-    } catch (Exception e) {
-        model.addAttribute("message", "Error deleting user: " + e.getMessage());
-        return "error";  // Redirect to error page
-    }
-}
 
 }

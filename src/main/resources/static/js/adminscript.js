@@ -62,17 +62,56 @@ async function fetchAllLoans() {
     }
 }
 
-// Approve a loan
 async function approveLoan(loanId) {
-    await updateLoanStatus(loanId, 'APPROVED');
+    try {
+        // Make PUT request to approve the loan
+        const response = await fetch(`/api/loans/${loanId}/approve`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to approve the loan');
+        }
+
+        const loan = await response.json(); // Assuming the backend returns the updated loan
+        alert(`Loan approved successfully: ${loan.id}`);
+        // Optionally, refresh the loan list to reflect the updated status
+        fetchAllLoans();
+    } catch (error) {
+        console.error('Error approving loan:', error);
+        alert('Failed to approve loan. Please try again.');
+    }
 }
 
 // Reject a loan
 async function rejectLoan(loanId) {
-    await updateLoanStatus(loanId, 'REJECTED');
+    try {
+        // Make PUT request to reject the loan
+        const response = await fetch(`/api/loans/${loanId}/reject`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to reject the loan');
+        }
+
+        const loan = await response.json(); // Assuming the backend returns the updated loan
+        alert(`Loan rejected successfully: ${loan.id}`);
+        // Optionally, refresh the loan list to reflect the updated status
+        fetchAllLoans();
+    } catch (error) {
+        console.error('Error rejecting loan:', error);
+        alert('Failed to reject loan. Please try again.');
+    }
 }
 
-// Update loan status
+// Update loan status in the backend
 async function updateLoanStatus(loanId, status) {
     try {
         const response = await fetch(`/admin/loans/${loanId}/status?status=${status}`, {
@@ -91,6 +130,78 @@ async function updateLoanStatus(loanId, status) {
         console.error(`Error in updateLoanStatus function:`, error);
         alert(`An error occurred while trying to update the loan status.`);
     }
+}
+
+// Update loan history and send notifications
+async function updateLoanHistoryAndNotify(loanId, status) {
+    // 1. Fetch the updated loan history (based on the name associated with the loanId)
+    const loanName = await getLoanNameById(loanId); // You need to implement this function or use a service
+    fetchLoanHistoryByName(loanName); // Refresh the loan history
+
+    // 2. Notify the user about the status change
+    const notificationMessage = `Your loan application has been ${status.toLowerCase()} by the admin.`;
+    addNotification(loanName, notificationMessage); // You need to implement this notification system
+}
+
+// Fetch loan name by ID (or use existing service to get the name)
+async function getLoanNameById(loanId) {
+    try {
+        const response = await fetch(`/api/loans/${loanId}`);
+        if (!response.ok) throw new Error("Network response was not ok");
+        const loan = await response.json();
+        return loan.name;  // Assuming the loan object has a 'name' property
+    } catch (error) {
+        console.error("Error fetching loan details:", error);
+        alert("Failed to fetch loan details.");
+    }
+}
+
+// Fetch loan history based on name
+async function fetchLoanHistoryByName(name) {
+    try {
+        const response = await fetch(`/api/loans/by-name/${encodeURIComponent(name)}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching loan history: ${response.statusText}`);
+        }
+
+        const loans = await response.json();
+        const tableBody = document.getElementById("transactionTable").querySelector("tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
+
+        if (loans.length > 0) {
+            loans.forEach((loan) => {
+                const row = document.createElement("tr");
+                const formattedDate = new Date(loan.applicationDate).toLocaleString();
+                row.innerHTML = `
+                    <td>${loan.name}</td>
+                    <td>${loan.id}</td>
+                    <td>$${loan.amount.toFixed(2)}</td>
+                    <td>${loan.status}</td>
+                    <td>${formattedDate}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            const row = document.createElement("tr");
+            row.innerHTML = "<td colspan='5'>No transactions found</td>";
+            tableBody.appendChild(row);
+        }
+    } catch (error) {
+        console.error("Error fetching loan history:", error);
+        alert("Failed to fetch loan history. Please try again later.");
+    }
+}
+
+// Add a notification for the user
+function addNotification(userName, message) {
+    const notificationSection = document.getElementById("notificationSection");
+    const notification = document.createElement("div");
+    notification.classList.add("notification");
+    notification.innerText = `Notification for ${userName}: ${message}`;
+    notificationSection.appendChild(notification);
+
+    // You may want to add logic to remove the notification after a few seconds
+    setTimeout(() => notification.remove(), 5000);  // Remove after 5 seconds
 }
 
 // Fetch personal information
@@ -131,5 +242,24 @@ async function fetchPersonalInfo() {
     } catch (error) {
         console.error("Error fetching personal information:", error);
         alert("Failed to fetch personal information.");
+    }
+}
+function confirmDelete(userId) {
+    if (confirm("Are you sure you want to delete this user?")) {
+        fetch(`/admin/delete-user/${userId}`, { 
+            method: "DELETE" // Use DELETE instead of POST
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("User deleted successfully!");
+                fetchPersonalInfo(); // Refresh table after deletion
+            } else {
+                return response.text().then(text => { throw new Error(text); });
+            }
+        })
+        .catch(error => {
+            console.error("Error deleting user:", error);
+            alert("Failed to delete user. Please try again later.");
+        });
     }
 }

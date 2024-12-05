@@ -45,7 +45,7 @@ input {
 }
 
 .table-container {
-    max-height: 500px; 
+    max-height: 450px; 
     overflow-y: auto; 
     border: 1px solid #ddd; 
     border-radius: 5px; 

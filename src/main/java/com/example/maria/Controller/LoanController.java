@@ -59,15 +59,17 @@ public ResponseEntity<?> applyLoan(@RequestBody Map<String, Object> request) {
 
     // Approve a loan application
     @PutMapping("/{loanId}/approve")
-    public Loan approveLoan(@PathVariable Long loanId) {
-        return loanService.approveOrRejectLoan(loanId, "APPROVED");
-    }
+public ResponseEntity<Loan> approveLoan(@PathVariable Long loanId) {
+    Loan loan = loanService.approveOrRejectLoan(loanId, "APPROVED");
+    return ResponseEntity.ok(loan);
+}
 
     // Reject a loan application
     @PutMapping("/{loanId}/reject")
-    public Loan rejectLoan(@PathVariable Long loanId) {
-        return loanService.approveOrRejectLoan(loanId, "REJECTED");
-    }
+public ResponseEntity<Loan> rejectLoan(@PathVariable Long loanId) {
+    Loan loan = loanService.approveOrRejectLoan(loanId, "REJECTED");
+    return ResponseEntity.ok(loan);
+}
 
 
     @GetMapping("/by-name/{name}")
