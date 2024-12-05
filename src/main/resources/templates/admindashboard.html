@@ -71,20 +71,20 @@
         document.getElementById("main").style.marginLeft = "250px";
     }
 
-    // Function to close the sidebar
+
     function closeNav() {
         document.getElementById("sidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
 
-    // Function to load content dynamically
+
     function loadContent(file) {
         fetch(file)
             .then(response => response.text())
             .then(html => {
                 document.getElementById("content").innerHTML = html;
 
-                // Initialize functionalities based on the loaded file
+                
                 if (file.includes("adminloan.html")) {
                     fetchAllLoans();
                 } else if (file.includes("list.html")) {
@@ -94,16 +94,15 @@
             .catch(error => console.error('Error loading content:', error));
     }
 
-    // Fetch personal information
+
     async function fetchPersonalInfo() {
     try {
-        const response = await fetch('/api/personal-information/all');  // Ensure this API exists
+        const response = await fetch('/api/personal-information/all'); 
         if (!response.ok) throw new Error('Network response was not ok');
 
         const personalInfoList = await response.json();
         const tableBody = document.getElementById("personalInfoTable").querySelector("tbody");
-        tableBody.innerHTML = ""; // Clear existing rows
-
+        tableBody.innerHTML = ""; 
         if (Array.isArray(personalInfoList) && personalInfoList.length > 0) {
             personalInfoList.forEach(info => {
                 const row = document.createElement("tr");
@@ -135,12 +134,12 @@ async function deleteUser(userId, button) {
     if (confirm("Are you sure you want to delete this user?")) {
         try {
             const response = await fetch(`/admin/delete-user/${userId}`, {
-                method: 'DELETE', // Use DELETE instead of POST
+                method: 'DELETE', 
             });
 
             if (response.ok) {
                 alert("User deleted successfully!");
-                button.closest("tr").remove(); // Remove the row from the table immediately
+                button.closest("tr").remove(); 
             } else {
                 alert("Failed to delete user. Please try again.");
             }
@@ -175,12 +174,12 @@ async function deleteUser(userId, button) {
     // Fetch all loans for the admin
     async function fetchAllLoans() {
         try {
-            const response = await fetch('/admin/loans'); // API for admin to fetch all loans
+            const response = await fetch('/admin/loans'); 
             if (!response.ok) throw new Error('Network response was not ok');
 
             const loans = await response.json();
             const tableBody = document.getElementById("adminLoanTable").querySelector("tbody");
-            tableBody.innerHTML = ""; // Clear existing rows
+            tableBody.innerHTML = ""; 
 
             if (loans.length > 0) {
                 loans.forEach(loan => {
@@ -217,7 +216,7 @@ async function approveLoan(loanId) {
         });
         if (response.ok) {
             alert("Loan approved successfully.");
-            fetchAllLoans();  // Refresh the loan list
+            fetchAllLoans();  
         } else {
             alert("Failed to approve the loan.");
         }
@@ -235,7 +234,7 @@ async function rejectLoan(loanId) {
         });
         if (response.ok) {
             alert("Loan rejected successfully.");
-            fetchAllLoans();  // Refresh the loan list
+            fetchAllLoans();  
         } else {
             alert("Failed to reject the loan.");
         }
@@ -249,7 +248,7 @@ async function rejectLoan(loanId) {
     function confirmLogout() {
         const confirmation = confirm("Are you sure you want to log out?");
         if (confirmation) {
-            window.location.href = "/logout";  // Redirect to logout page
+            window.location.href = "/logout";  
         }
     }
 </script>

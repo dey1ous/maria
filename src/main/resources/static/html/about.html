@@ -3,55 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About User</title>
-    <link rel="stylesheet" href="/css/about.css">
+    <title>About Simbayanan ni Maria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003b73;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #002d62;
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+        .content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 5px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            overflow: hidden;
+        }
+        .content > div {
+            padding: 10px; 
+            max-width: 1000px;
+            max-height: 400px; /* Set a max height for columns */
+        }
+        h2 {
+            color: #002d62;
+
+        }
+        ul {
+            margin-left: 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #002d62;
+            color: white;
+            font-size: 0.9em;
+        }
+        .highlight {
+            font-style: italic;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr; /* Stack columns vertically on smaller screens */
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="header">
-        <h1>About User</h1>
+        <h1>About Simbayanan ni Maria</h1>
     </div>
-
-    <div id="loadingMessage">Loading user data...</div>
-
-    <div id="userInfo">
-        <table>
-            <tbody>
-                <tr>
-                    <td><strong>User ID:</strong></td>
-                    <td id="userId"></td>
-                </tr>
-                <tr>
-                    <td><strong>Full Name:</strong></td>
-                    <td id="fullName"></td>
-                </tr>
-                <tr>
-                    <td><strong>Date of Birth:</strong></td>
-                    <td id="dob"></td>
-                </tr>
-                <tr>
-                    <td><strong>Gender:</strong></td>
-                    <td id="gender"></td>
-                </tr>
-                <tr>
-                    <td><strong>Civil Status:</strong></td>
-                    <td id="civilStatus"></td>
-                </tr>
-                <tr>
-                    <td><strong>Email:</strong></td>
-                    <td id="email"></td>
-                </tr>
-                <tr>
-                    <td><strong>Phone:</strong></td>
-                    <td id="phone"></td>
-                </tr>
-                <tr>
-                    <td><strong>Address:</strong></td>
-                    <td id="address"></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="content">
+        <div class="left-column">
+            <h2>Who We Are</h2>
+            <p>
+                SIMBAYANAN NI MARIA MULTI-PURPOSE COOPERATIVE started as a parish-based Cooperative at Our Lady of Holy Rosary Parish in 1991. 
+                Fully organized on June 25, 1991, the cooperative was led by Rev. Fr. Anton Cecilio T. Pascual and thirty-three (33) founding members 
+                with a starting capital of sixteen thousand pesos (₱16,000). Our mission has always been clear: to combat poverty and enrich the lives of Taguigenos.
+            </p>
+            <h2>Core Values</h2>
+            <ul>
+                <li>God-Centeredness</li>
+                <li>Financial Maturity</li>
+                <li>Discipline of Entrepreneurship</li>
+                <li>Unity towards Synergy</li>
+            </ul>
+        </div>
+        <div class="right-column">
+            <h2>Our Milestones</h2>
+            <p>
+                In 2004, the 4-storey building at 115 MLQ Street, Purok 2, New Lower Bicutan became our main office, inaugurated in 2005 by President Gloria Macapagal Arroyo and blessed by Most Rev. Francisco San Diego, the first Bishop of the Diocese of Pasig.
+                Over the years, our commitment to service and the cooperative movement has brought real change, recognized with multiple awards, including being named the MOST OUTSTANDING COOPERATIVE in 2019 by the Cooperative Development Authority.
+            </p>
+            <h2>Vision & Mission</h2>
+            <p>
+                <strong>Vision:</strong> 10 Billion by 2030 for an Inclusive and Sustainable Simbayanan Community.
+            </p>
+            <p>
+                <strong>Mission:</strong> A Community of cooperators enjoying financial freedom and entrepreneurial success, embracing the cooperative ideals as a way of life.
+            </p>
+        </div>
     </div>
-
-    <script src="/js/about.js"></script>
+    <div class="footer">
+        © 2024 Simbayanan ni Maria Multi-Purpose Cooperative. All Rights Reserved.
+    </div>
 </body>
 </html>
