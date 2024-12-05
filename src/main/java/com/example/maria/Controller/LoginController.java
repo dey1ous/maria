@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @PostMapping("/login")
     public ModelAndView login(
@@ -37,8 +37,13 @@ public class LoginController {
             modelAndView.setViewName("login");
             modelAndView.addObject("error", "Incorrect password.");
         } else {
-            // Successful login
-            session.setAttribute("user", user);
+            // Store essential user information in the session (avoid sensitive data)
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("email", user.getEmail());
+            session.setAttribute("role", user.getRole());
+            session.setAttribute("fullName", user.getFullName());
+
             modelAndView.setViewName("redirect:/dashboard");
         }
 

@@ -1,5 +1,7 @@
 package com.example.maria.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import com.example.maria.entity.User;
 import com.example.maria.repository.PersonalInformationRepository;
 import com.example.maria.service.LoanService;
 import com.example.maria.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/user")
@@ -73,5 +77,24 @@ public ResponseEntity<User> getCurrentUser(@RequestParam String username) {
             return ResponseEntity.notFound().build();
         }
     }
-    
+    @GetMapping("/details")
+public ResponseEntity<Map<String, Object>> getUserDetails(HttpSession session) {
+    // Retrieve attributes from the session
+    String fullName = (String) session.getAttribute("fullName");
+    String username = (String) session.getAttribute("username");
+    Long userId = (Long) session.getAttribute("userId"); // Retrieve userId
+
+    // Handle the case where the user is not logged in
+    if (username == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    // Prepare response data
+    Map<String, Object> userDetails = new HashMap<>();
+    userDetails.put("fullName", fullName);
+    userDetails.put("username", username);
+    userDetails.put("id", userId); // Add the id to the response
+
+    return ResponseEntity.ok(userDetails);
+}
 }
