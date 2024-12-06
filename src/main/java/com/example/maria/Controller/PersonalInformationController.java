@@ -39,6 +39,6 @@ public List<PersonalInformation> getAllPersonalInformation() {
     User user = userService.getUserDetails(userId);
         return ResponseEntity.ok(user);
     }
-
+    
 
 }

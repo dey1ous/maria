@@ -2,14 +2,11 @@ package com.example.maria.entity;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -29,9 +26,7 @@ public class PersonalInformation {
     private String phone;
     private String address;
 
-    @JsonIgnore
-    @Lob
-    private byte[] validId;  // For storing the uploaded file
+    private String validIdFilename;  // For storing the uploaded file
 
     @ManyToOne
     @JoinColumn(name = "user_id")  // Assuming this is the column in the database
@@ -103,13 +98,6 @@ public class PersonalInformation {
         this.address = address;
     }
 
-    public byte[] getValidId() {
-        return validId;
-    }
-
-    public void setValidId(byte[] validId) {
-        this.validId = validId;
-    }
 
     public User getUser() {
         return user;
@@ -117,5 +105,13 @@ public class PersonalInformation {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getValidIdFilename() {
+        return validIdFilename;
+    }
+
+    public void setValidIdFilename(String validIdFilename) {
+        this.validIdFilename = validIdFilename;
     }
 }

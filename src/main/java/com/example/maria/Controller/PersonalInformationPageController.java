@@ -1,6 +1,9 @@
 package com.example.maria.Controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -22,7 +25,7 @@ public class PersonalInformationPageController {
     @Autowired
     private PersonalInformationService service;
     private PersonalInformation tempInfo;
-    
+    private static final String VALID_ID_STORAGE_DIR = "src/main/resources/static/images";
     @PostMapping("/review")
     public String reviewPersonalInfo(
         @RequestParam("full_name") String fullName,
@@ -49,7 +52,8 @@ public class PersonalInformationPageController {
             info.setEmail(email);
             info.setPhone(phone);
             info.setAddress(address);
-            info.setValidId(validId.getBytes());
+            String validIdFilename = saveValidIdToFile(validId);
+            info.setValidIdFilename(validIdFilename);
 
             // Temporarily store the data for review
             tempInfo = info;
@@ -63,6 +67,16 @@ public class PersonalInformationPageController {
             model.addAttribute("message", "Failed to process valid ID: " + e.getMessage());
             return "error";  // Redirects to error.html
         }
+    }
+     private String saveValidIdToFile(MultipartFile validId) throws IOException {
+        // Generate a unique filename
+        String filename = "valid_id_" + System.currentTimeMillis() + ".jpg"; // Change extension as needed
+        Path path = Paths.get(VALID_ID_STORAGE_DIR, filename);
+
+        // Save the file
+        Files.write(path, validId.getBytes());
+        
+        return filename;  // Return the filename to store in the database
     }
 
     // Method to confirm and save personal information
