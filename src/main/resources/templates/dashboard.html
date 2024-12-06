@@ -59,6 +59,7 @@
         event.preventDefault(); 
         const confirmation = confirm("Are you sure you want to log out?");
         if (confirmation) {
+            sessionStorage.clear();
             window.location.href = '/logout';
         }
     }
@@ -138,6 +139,7 @@ function loadScript(scriptFile, callback) {
     }
 
     function openContactModal() {
+        console.log("Modal opened");
         document.getElementById('contactModal').style.display = 'block';
     }
 

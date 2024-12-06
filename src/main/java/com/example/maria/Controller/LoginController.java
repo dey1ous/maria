@@ -43,8 +43,10 @@ public class LoginController {
             session.setAttribute("email", user.getEmail());
             session.setAttribute("role", user.getRole());
             session.setAttribute("fullName", user.getFullName());
-
+            
             modelAndView.setViewName("redirect:/dashboard");
+            
+            
         }
 
         return modelAndView;
